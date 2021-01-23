@@ -8,7 +8,7 @@ export default class Socket {
         this.wsConnection = null;
         this.packetHandler = new PacketHandler(this);
         setTimeout(() => {
-            this.connect('antha.run-eu-central1.goorm.io:4444');
+            this.connect('antha.run-eu-central1.goorm.io');
         }, 500);
     }
 

@@ -5,31 +5,22 @@
         <div class="stat">
           <p id="fps" class="statValue">FPS: 60</p>
         </div>
-        <div class="stat">
+        <div class="stat" style="display: none;">
           <p id="ping" class="statValue">Ping: 0</p>
         </div>
-        <div class="stat">
+        <div class="stat" style="display: none;">
           <p id="mass" class="statValue"></p>
         </div>
-        <div class="stat">
+        <div class="stat" style="display: none;">
           <p id="cells" class="statValue"></p>
         </div>
       </div>
       <div id="mainLeaderboard">
         <p class="leaderboardTitle">Leaderboard</p>
-        <div id="leaderboardRows">
-          <div class="lbRow">1. Sos1</div>
-          <div class="lbRow">2. Sos2</div>
-          <div class="lbRow">3. Sos3</div>
-          <div class="lbRow">4. Sos4</div>
-          <div class="lbRow">5. Sos5</div>
-          <div class="lbRow">6. Sos6</div>
-        </div>
+        <div id="leaderboardRows"></div>
       </div>
       <div id="mainChat" @mouseover="chatMouseOver" @mouseout="chatMouseOut">
-        <div id="messages">
-          <p class="message">Sos: Hello guqweqweqwewqewqewqeqweqweqwewqewqewqewqeqwewqeys</p>
-        </div>
+        <div id="messages"></div>
         <input @focus="onChatFocus" @blur="onChatBlur" type="text" id="chatInput" maxlength="256" spellcheck="false" placeholder="Press Enter To Chat" autocomplete="off">
       </div>
       <div id="mainMinimap">
