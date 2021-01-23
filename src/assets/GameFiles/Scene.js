@@ -180,6 +180,7 @@ export default class Scene {
     }
 
     updateCameraScale(e) {
+        console.log(window.canZoom)
         if (window.canZoom) {
             let camera = this.game.camera;
             let zoomSpeed = this.game.settings.template.ranges["Zoom Speed"].value;
@@ -237,6 +238,7 @@ export default class Scene {
                 window.onwheel = this.updateCameraScale.bind(this);
                 window.onmousemove = this.onMouseMove.bind(this);
                 mainScene.appendChild(this.app.view);
+                this.game.socket.connect('antha.run-eu-central1.goorm.io');
             });
         });
     }

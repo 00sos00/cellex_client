@@ -7,9 +7,6 @@ export default class Socket {
         this.WebSocket = ws;
         this.wsConnection = null;
         this.packetHandler = new PacketHandler(this);
-        setTimeout(() => {
-            this.connect('antha.run-eu-central1.goorm.io');
-        }, 500);
     }
 
     isConnectionOpen() {
@@ -60,9 +57,9 @@ export default class Socket {
 
     onOpen() {
         console.log('Socket opened')
-        this.packetHandler.sendName(localStorage.getItem('name'));
-        this.packetHandler.sendSkin(localStorage.getItem('skinCode'));
-        this.packetHandler.sendTag(localStorage.getItem('tag'));
+        this.packetHandler.sendName(localStorage.getItem('name') || '');
+        this.packetHandler.sendSkin(localStorage.getItem('skinCode') || '');
+        this.packetHandler.sendTag(localStorage.getItem('tag') || '');
         this.game.scene.app.ticker.start();
         this.startPingLoop();
     }

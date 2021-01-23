@@ -76,7 +76,10 @@ export default class Player {
         text.resolution = 2;
         text.anchor.set(0.5);
         text.position.set(306, 100);
-        this.game.scene.renderer.render(text, renderTexture);
+        if (this.game.scene.renderer)
+            this.game.scene.renderer.render(text, renderTexture);
+        else
+            return;
         if (this.cellTemplate.nameTexture)
             this.cellTemplate.nameTexture.destroy();
         this.cellTemplate.nameTexture = renderTexture;
