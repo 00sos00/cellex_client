@@ -1,0 +1,164 @@
+{
+    "options": {
+        "Names": {
+            "name": "Names",
+            "value": "ALL",
+            "defaultValue": "ALL",
+            "possibleValues": ["ALL", "TAG", "HIDE SELF", "SELF", "OFF"]
+        },
+        "Skins": {
+            "name": "Skins",
+            "value": "ALL",
+            "defaultValue": "ALL",
+            "possibleValues": ["ALL", "TAG", "HIDE SELF", "SELF", "OFF"]
+        },
+        "Mass": {
+            "name": "Mass",
+            "value": "ALL",
+            "defaultValue": "ALL",
+            "possibleValues": ["ALL", "TAG", "HIDE SELF", "SELF", "OFF"]
+        },
+        "Mass Type": {
+            "name": "Mass Type",
+            "value": "SHORT",
+            "defaultValue": "SHORT",
+            "possibleValues": ["SHORT", "FULL"]
+        },
+        "Auto Zoom": {
+            "name": "Auto Zoom",
+            "value": "OFF",
+            "defaultValue": "OFF",
+            "possibleValues": ["ON", "OFF"]
+        },
+        "No Lag": {
+            "name": "No Lag",
+            "value": "OFF",
+            "defaultValue": "OFF",
+            "possibleValues": ["ON", "OFF"]
+        },
+        "HUD":{
+            "name": "HUD",
+            "value": "SHOWN",
+            "defaultValue": "SHOWN",
+            "possibleValues": ["SHOWN", "HIDDEN"] 
+        },
+        "Chat": {
+            "name": "Chat",
+            "value": "SHOWN",
+            "defaultValue": "SHOWN",
+            "possibleValues": ["SHOWN", "HIDDEN"]
+        },
+        "Minimap": {
+            "name": "Minimap",
+            "value": "SHOWN",
+            "defaultValue": "SHOWN",
+            "possibleValues": ["SHOWN", "HIDDEN"]
+        },
+        "Border": {
+            "name": "Border",
+            "value": "SHOWN",
+            "defaultValue": "SHOWN",
+            "possibleValues": ["SHOWN", "HIDDEN"]
+        },
+        "Pellets": {
+            "name": "Pellets",
+            "value": "SHOWN",
+            "defaultValue": "SHOWN",
+            "possibleValues": ["SHOWN", "HIDDEN"]
+        },
+        "Rainbow Pellets": {
+            "name": "Rainbow Pellets",
+            "value": "ON",
+            "defaultValue": "ON",
+            "possibleValues": ["ON", "OFF"]
+        }
+    },
+    "ranges": {
+        "Animation Delay": {
+            "name": "Animation Delay",
+            "value": 100,
+            "defaultValue": 100,
+            "minValue": 50,
+            "maxValue": 200,
+            "step": 5
+        },
+        "Camera Speed": {
+            "name": "Camera Speed",
+            "value": 0.25,
+            "defaultValue": 0.25,
+            "minValue": 0.25,
+            "maxValue": 0.5,
+            "step": 0.05
+        },
+        "Zoom Speed": {
+            "name": "Zoom Speed",
+            "value": 1.2,
+            "defaultValue": 1.2,
+            "minValue": 1.1,
+            "maxValue": 1.5,
+            "step": 0.1
+        },
+        "Border Width": {
+            "name": "Border Width",
+            "value": 0.5,
+            "defaultValue": 0.5,
+            "minValue": 0.25,
+            "maxValue": 1,
+            "step": 0.05
+        }
+    },
+    "hotkeys": {
+        "Feed": {
+            "name": "Feed",
+            "value": "KeyW",
+            "defaultValue": "KeyW"
+        },
+        "Split": {
+            "name": "Split",
+            "value": "Space",
+            "defaultValue": "Space"
+        },
+        "Doublesplit": {
+            "name": "Doublesplit",
+            "value": "KeyQ",
+            "defaultValue": "KeyQ"
+        },
+        "Triplesplit": {
+            "name": "Triplesplit",
+            "value": "KeyR",
+            "defaultValue": "KeyR"
+        },
+        "Split16": {
+            "name": "Split16",
+            "value": "KeyT",
+            "defaultValue": "KeyT"
+        },
+        "Respawn": {
+            "name": "Respawn",
+            "value": "KeyD",
+            "defaultValue": "KeyD"
+        },
+        "Toggle Menu": {
+            "name": "Toggle Menu",
+            "value": "Escape",
+            "defaultValue": "Escape"
+        }
+    },
+    "colors": {
+        "Background": {
+            "name": "Background",
+            "value": "FFFFFF",
+            "defaultValue": "FFFFFF"
+        },
+        "Border": {
+            "name": "Border",
+            "value": "3FFFFF",
+            "defaultValue": "3FFFFF"
+        },
+        "Pellets": {
+            "name": "Pellets",
+            "value": "12FFFF",
+            "defaultValue": "12FFFF"
+        }
+    }
+}

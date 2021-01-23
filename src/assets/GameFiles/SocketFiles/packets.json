@@ -1,0 +1,13 @@
+{
+    "CACHE_NAME":     2,
+    "CACHE_SKIN":     3,
+    "PING":           10,
+    "UPDATE_CELLS":   16,
+    "SPECTATE_POS":   17,
+    "CLEAR_ALL":      18,
+    "UPDATE_LB":      49,
+    "SET_BORDER":     64,
+    "CHAT_MSG":       99,
+    "DELETE_PLAYER":  100,
+    "UPDATE_PLAYERS": 105
+}
