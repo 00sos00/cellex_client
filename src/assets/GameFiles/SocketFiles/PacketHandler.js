@@ -233,11 +233,12 @@ export default class PacketHandler {
     updateLeaderboard(reader) {
         this.socket.game.leaderBoard.clear();
         for (let i = 0, c = reader.getUint32(); i < c; i++) {
-            this.socket.game.leaderBoard.set(i + 1, {
+            this.socket.game.leaderBoard.list.set(i + 1, {
                 isMe: !!reader.getUint32(),
                 name: reader.getStringUTF8()
             });
         }
+        this.socket.game.scene.updateLeaderboard();
     }
 
     setBorder(reader) {
@@ -269,6 +270,7 @@ export default class PacketHandler {
             name: reader.getStringUTF8(),
             text: reader.getStringUTF8()
         });
+        this.socket.game.scene.updateChat();
     }
 
     removePlayer(reader) {

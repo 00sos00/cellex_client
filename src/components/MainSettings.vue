@@ -1,5 +1,5 @@
 <template>
-  <div id="mainSettings">
+  <div id="mainSettings" class="main">
       <!-- Header -->
       <header id="settingsHeader">
           <div id="settingsTabs">

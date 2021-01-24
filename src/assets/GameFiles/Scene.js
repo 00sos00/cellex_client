@@ -25,7 +25,8 @@ export default class Scene {
     }
 
     mainLoop() {
-        this.updateHUD();
+        this.updateStats();
+        this.updateMinimap();
         this.updateCamera();
         this.sendMousePosition();
         this.updateBackgroundColor();
@@ -34,12 +35,12 @@ export default class Scene {
 
     drawBorder() {
         const border = this.game.border;
-        const borderGraphics = new PIXI.Graphics();
         const borderWidth = this.game.settings.template.ranges["Border Width"].value;
         const borderColor = this.game.settings.template.colors["Border"].value;
         const showBorder =  this.game.settings.template.options["Border"].value == "SHOWN";
 
         if (border && showBorder) {
+            const borderGraphics = new PIXI.Graphics();
             borderGraphics.lineStyle(borderWidth * 100, '0x' + borderColor)
                .moveTo(border.left, border.top)
                .lineTo(border.right, border.top)
@@ -52,16 +53,12 @@ export default class Scene {
 
     updateHUD() {
         let showHUD = this.game.settings.template.options["HUD"].value == "SHOWN";
-        let mainStats = document.getElementById('mainStats');
-        let mainLeaderboard = document.getElementById('mainLeaderboard');
-        let mainMinimap = document.getElementById('mainMinimap');
-        mainStats.style.display = showHUD ? '' : 'none';
-        mainLeaderboard.style.display = showHUD ? '' : 'none';
-        mainMinimap.style.display = showHUD ? '' : 'none';
-        this.updateStats();
-        this.updateLeaderboard();
-        this.updateChat();
-        this.updateMinimap();
+        let showMinimap = this.game.settings.template.options["Minimap"].value == "SHOWN";
+        let showChat = this.game.settings.template.options["Chat"].value == "SHOWN";
+        document.getElementById('mainStats').style.display = showHUD ? '' : 'none';
+        document.getElementById('mainLeaderboard').style.display = showHUD ? '' : 'none';
+        document.getElementById('mainMinimap').style.display = showHUD && showMinimap ? '' : 'none';
+        document.getElementById('mainChat').style.display = showHUD && showChat ? '' : 'none';
     }
 
     updateStats() {
@@ -96,7 +93,7 @@ export default class Scene {
     }
 
     updateLeaderboard() {
-        let leaderboard = this.game.leaderBoard;
+        let leaderboard = this.game.leaderBoard.list;
         let lbElement = document.getElementById('leaderboardRows');
         let html = '';
         leaderboard.forEach((row, i) => {
@@ -106,17 +103,23 @@ export default class Scene {
     }
 
     updateChat() {
-        let mainChat = document.getElementById('mainChat');
         let messages = this.game.chat.messages;
         let messagesElement = document.getElementById('messages');
         let html = '';
-        let showChat = this.game.settings.template.options["Chat"].value == "SHOWN";
-        let showHUD = this.game.settings.template.options["HUD"].value == "SHOWN";
+        let isScrollingChat = false;
+        if (messagesElement.scrollHeight - (messagesElement.offsetHeight + messagesElement.scrollTop) < 1)
+            isScrollingChat = false;
+        else 
+            isScrollingChat = true;
         messages.forEach(msg => {
-            html += `<p class="message">${msg.name}: ${msg.text}</p>`
+            html += `<div class="message">
+                        <span class="messageName">${msg.name}:</span>
+                        <span class="messageText">${msg.text}</span>
+                     </div>`
         });
         messagesElement.innerHTML = html;
-        mainChat.style.display = showChat && showHUD ? 'block' : 'none'; 
+        if (!isScrollingChat)
+            messagesElement.scrollTo(0, messagesElement.scrollHeight);
     }
 
     updateMinimap() {
@@ -238,7 +241,7 @@ export default class Scene {
                 window.onwheel = this.updateCameraScale.bind(this);
                 window.onmousemove = this.onMouseMove.bind(this);
                 mainScene.appendChild(this.app.view);
-                this.game.socket.connect('antha.run-eu-central1.goorm.io');
+                this.game.socket.connect('localhost:4444');
             });
         });
     }

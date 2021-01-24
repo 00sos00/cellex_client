@@ -1,5 +1,13 @@
 <template>
-  <div id="mainPlay">
+  <!-- Nav buttons -->
+  <div id="mainNav" class="main">
+    <button class="navBtn">Shop</button>
+    <button class="navBtn">Profile</button>
+    <button class="navBtn">Servers</button>
+    <button class="navBtn">Skins</button>
+  </div>
+  <div id="mainPlay" class="main">
+    
     <!-- The xp circle -->
     <svg width="172.5" height="172.5" id="xpCircleHolder">
       <circle r="71.25" cx="86.25" cy="86.25" id="xpCircleBar"></circle>
@@ -86,6 +94,47 @@ export default {
   height: 350px;
   z-index: -1;
 }
+
+
+
+#mainNav {
+  height: 30px;
+
+  position: absolute;
+  top: 0px;
+  left: 0px;
+
+  /* background-color: #1b1e2791;
+
+  border-bottom: 2px #1b1e27 solid;
+  border-right: 2px #1b1e27 solid; */
+  display: flex;
+  padding: 5px;
+  z-index: -1;
+  border-bottom-right-radius: 5px;
+}
+.navBtn {
+  flex: 1;
+  height: 30px;
+
+  color: white;
+  background-color: transparent;
+  font-size: 20px;
+  font-family: 'Quicksand';
+
+  margin-right: 10px;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+}
+.navBtn:hover {
+  cursor: pointer;
+  color: #a7a7a7;
+}
+
+
+
+
 #xpCircleHolder {
     position: absolute;
     left: 50%;
@@ -244,7 +293,7 @@ export default {
     color: white;
     font-size: 20px;
     font-family: 'Quicksand';
-    background-color: #3399FF;
+    background-color: #4480d4;
 
     width: 180px;
     height: 40px;
@@ -267,7 +316,7 @@ export default {
     color: white;
     font-size: 20px;
     font-family: 'Quicksand';
-    background-color: #2AC940;
+    background-color: #4480d4;
 
     width: 180px;
     height: 40px;
@@ -290,7 +339,7 @@ export default {
     color: white;
     font-size: 20px;
     font-family: 'Quicksand';
-    background-color: #f81d54;
+    background-color: #4a5cd4;
 
     height: 40px;
 

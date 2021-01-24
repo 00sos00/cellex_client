@@ -37,9 +37,16 @@ export default class Game {
             messages: new Map(),
             clear() {
                 this.messages.clear();
+                document.getElementById('messages').innerHTML = '';
             }
         }
-        this.leaderBoard = new Map();
+        this.leaderBoard = {
+            list: new Map(),
+            clear() {
+                this.list.clear();
+                document.getElementById('leaderboardRows').innerHTML = '';
+            }
+        };
         this.gameCells =    new Map();
         this.ownedCells =   new Map();
         this.playerCells =  new Map();
@@ -51,19 +58,18 @@ export default class Game {
     }
 
     showMain() {
-        $("#mainPlay").fadeIn(250);
-        $("#background").fadeIn(250);
+        $(".main").fadeIn(250);
         this.mainOpen = true;
     }
 
     hideMain() {
-        $("#mainPlay").fadeOut(250);
-        $("#background").fadeOut(250);
+        $(".main").fadeOut(250);
         this.mainOpen = false;
     }
 
     resetEverything() {
         this.scene.clearStage();
+        this.chat.clear();
         this.leaderBoard.clear();
         this.playerManager.players.clear();
     }

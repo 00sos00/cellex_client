@@ -4,7 +4,7 @@
   <SkinChanger :game="game"/>
   <MainScene :game="game"/>
   <div id="overlay"></div>
-  <div id="background"></div>
+  <div id="background" class="main"></div>
 </template>
 
 <script>

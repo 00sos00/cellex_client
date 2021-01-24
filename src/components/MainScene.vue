@@ -101,7 +101,7 @@ export default {
   width: auto;
   height: 40px;
   max-zoom: 200;
-  background-color: #15181fb6;
+  background-color: #1b1e2791;
 
   position: absolute;
   left: 0px;
@@ -138,7 +138,7 @@ export default {
   max-width: 200px;
   max-height: 300px;
 
-  background-color: #15181fb6;
+  background-color: #1b1e2791;
 
   position: absolute;
   right: 0px;
@@ -178,7 +178,7 @@ export default {
   width: 300px;
   height: 250px;
 
-  background-color: #15181fb6;
+  background-color: #1b1e2791;
 
   position: absolute;
   bottom: 0px;
@@ -196,9 +196,19 @@ export default {
 
   overflow-y: auto;
   overflow-x: hidden;
+  scrollbar-width: 1px;
 }
-#messages::-webkit-scrollbar-track {
- width: 1px;
+#messages::-webkit-scrollbar {
+    width: 5px;
+
+    background-color: #1013187e;
+
+    border-radius: 5px;
+}
+#messages::-webkit-scrollbar-thumb {
+    background-color: #242b36;
+
+    border-radius: 5px;
 }
 .message {
   width: 100%;
@@ -208,8 +218,20 @@ export default {
   font-size: 16px;
   font-family: 'Arial';
 
-  word-wrap: break-word;
-  padding: 1px;
+  margin: 0;
+  margin-bottom: 5px;
+  text-indent: 12px;
+}
+.messageName {
+  color: rgba(255, 255, 255, 0.521);
+  font-size: 16px;
+  font-family: 'Arial';
+}
+.messageText {
+  color: white;
+  font-size: 16px;
+  font-family: 'Arial';
+  padding-left: 2px;
 }
 #chatInput {
   width: 100%;
@@ -228,7 +250,7 @@ export default {
 #chatInput::placeholder {
   color: #424857;
   font-size: 16px;
-  font-family: 'Arial';
+  font-family: 'Quicksand';
   text-align: center;
 }
 
@@ -242,7 +264,7 @@ export default {
   width: 200px;
   height: 200px;
 
-  background-color: #15181fb6;
+  background-color: #1b1e2791;
 
   position: absolute;
   bottom: 0px;

@@ -68,7 +68,6 @@ export default class Socket {
         console.log('Socket closed')
         this.game.resetEverything();
         this.game.showMain();
-        this.game.chat.messages.clear();
         this.stopPingLoop();
     }
 

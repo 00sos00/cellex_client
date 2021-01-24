@@ -1,7 +1,5 @@
 <template>
-  <div id="skinChanger">
-
-
+  <div id="skinChanger" class="main">
     <div id="skinHolder">
       <img v-on:click="openSkinChanger" class="skinImage" src="../assets/Images/defaultSkin.png" alt="Skin"/>
     </div>

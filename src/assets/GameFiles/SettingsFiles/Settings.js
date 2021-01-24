@@ -243,6 +243,9 @@ export default class Settings {
 
             // Save Settings
             localStorage.setItem('settings', JSON.stringify(this.template));
+
+            // Update HUD
+            this.game.scene.updateHUD();
         }, 100);
     }
 

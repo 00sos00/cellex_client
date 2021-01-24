@@ -12,6 +12,12 @@
             "defaultValue": "ALL",
             "possibleValues": ["ALL", "TAG", "HIDE SELF", "SELF", "OFF"]
         },
+        "12": {
+            "name": "12",
+            "value": "ALL",
+            "defaultValue": "ALL",
+            "possibleValues": ["ALL", "TAG", "BOO", "SELF", "OFF", "LAA"]
+        },
         "Mass": {
             "name": "Mass",
             "value": "ALL",

@@ -40,7 +40,7 @@ export default class Player {
         this.SPEC = data.SPEC;
         this.PLAY = data.PLAY;
         this.updateVisibleCells();
-        if (this.isMe && !this.game.mainOpen && this.size <= 0 && !this.SPEC)
+        if (this.isMe && !this.game.mainOpen && this.game.ownedCells.size <= 0 && !this.SPEC)
             this.game.showMain();
     }
 
