@@ -1,19 +1,21 @@
 <template>
-  <MainPlay :game="game"/>
-  <MainSettings :game="game"/>
-  <SkinChanger :game="game"/>
-  <MainScene :game="game"/>
+  <Auth v-if="!loggedIn" :game="game"/>
+  <MainPlay v-if="loggedIn" :game="game"/>
+  <MainSettings v-if="loggedIn" :game="game"/>
+  <SkinChanger v-if="loggedIn" :game="game"/>
+  <MainScene v-if="loggedIn" :game="game"/>
   <div id="overlay"></div>
   <div id="background" class="main"></div>
 </template>
 
 <script>
-import { getCurrentInstance } from 'vue';
+import { getCurrentInstance, ref } from 'vue';
 import { getPopupFunctions } from './assets/Functions/getPopupFunctions';
 import MainPlay from './components/MainPlay.vue';
 import SkinChanger from './components/SkinChanger.vue';
 import MainSettings from './components/MainSettings.vue';
 import MainScene from './components/MainScene.vue';
+import Auth from './components/Auth';
 import Game from './assets/GameFiles/Game';
 
 export default {
@@ -22,15 +24,27 @@ export default {
     MainPlay,
     MainSettings,
     SkinChanger,
-    MainScene
+    MainScene,
+    Auth,
   },
   setup() {
-    const ws = window.WebSocket;
-    delete window['WebSocket'];
-    const game = new Game(ws); // Init Game
     const self = getCurrentInstance();
     const EventHandler = self.appContext.config.globalProperties.EventHandler;
     const { popupShow, popupHide } = getPopupFunctions();
+    const loggedIn = ref(true);
+    const game = ref(null);
+    const ws = window['WebSocket'];
+        delete window['WebSocket'];
+      game.value = new Game(ws);
+
+
+    EventHandler.on('loggedIn', () => {
+      const ws = window.WebSocket;
+        delete window['WebSocket'];
+      game.value = new Game(ws);
+      loggedIn.value = true;
+    });
+    EventHandler.on('loggedOut', () => loggedIn.value = false);
 
     EventHandler.on('openSkinChanger', () => {
       popupShow('skinChanger', 250);
@@ -38,16 +52,18 @@ export default {
     EventHandler.on('closeSkinChanger', () => {
       popupHide('skinChanger', 250);
     });
+
+
     EventHandler.on('openSettings', () => {
-      game.settings.defaultTabButton.value.click();
-      game.settings.updateSettings();
+      game.value.settings.defaultTabButton.value.click();
+      game.value.settings.updateSettings();
       popupShow('mainSettings', 250);
     });
     EventHandler.on('closeSettings', () => {
       popupHide('mainSettings', 250);
     });
 
-    return { game }
+    return { game, loggedIn }
   }
 }
 </script>
