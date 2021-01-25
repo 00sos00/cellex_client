@@ -38,7 +38,9 @@ export default class Cell {
     createSkinSprite() {
         if (this.owner && this.owner.cellTemplate.skinTexture) {
             let skinSprite = new PIXI.Sprite(this.owner.cellTemplate.skinTexture);
-            skinSprite.anchor.set(0.5);
+                skinSprite.width = 512;
+                skinSprite.height = 512;
+                skinSprite.anchor.set(0.5);
             return skinSprite;
         }
     }

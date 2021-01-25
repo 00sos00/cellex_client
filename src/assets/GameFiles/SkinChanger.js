@@ -43,10 +43,10 @@ export default class SkinChanger {
     checkSkin() {
         return new Promise(resolve => {
             // Check if skin code is valid
-            const imgurRegex = /^https?:\/\/(\w+\.)?imgur.com\/(\w*\d\w*)+(\.[a-zA-Z]{3})?$/g;
-            const isValidSkin = imgurRegex.test(`https://i.imgur.com/${this.skinCode}.png`);
+            //const imgurRegex = /^https?:\/\/(\w+\.)?imgur.com\/(\w*\d\w*)+(\.[a-zA-Z]{3})?$/g;
+            //const isValidSkin = imgurRegex.test(`https://i.imgur.com/${this.skinCode}.png`);
 
-            if (!this.skinCode || this.skinCode.length != 7 || !isValidSkin || this.skinCode == this.lastSkinCode)
+            if (!this.skinCode || this.skinCode.length != 7 || this.skinCode == this.lastSkinCode)
                 resolve(false);
             else
                 resolve(true);

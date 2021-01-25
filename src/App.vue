@@ -1,9 +1,9 @@
 <template>
   <Auth v-if="!loggedIn" :game="game"/>
-  <MainPlay v-if="loggedIn" :game="game"/>
-  <MainSettings v-if="loggedIn" :game="game"/>
-  <SkinChanger v-if="loggedIn" :game="game"/>
-  <MainScene v-if="loggedIn" :game="game"/>
+  <MainPlay :game="game"/>
+  <MainSettings :game="game"/>
+  <SkinChanger :game="game"/>
+  <MainScene :game="game"/>
   <div id="overlay"></div>
   <div id="background" class="main"></div>
 </template>
@@ -32,18 +32,12 @@ export default {
     const EventHandler = self.appContext.config.globalProperties.EventHandler;
     const { popupShow, popupHide } = getPopupFunctions();
     const loggedIn = ref(true);
-    const game = ref(null);
     const ws = window['WebSocket'];
-        delete window['WebSocket'];
-      game.value = new Game(ws);
+    delete window['WebSocket'];
+    const game = new Game(ws);
 
 
-    EventHandler.on('loggedIn', () => {
-      const ws = window.WebSocket;
-        delete window['WebSocket'];
-      game.value = new Game(ws);
-      loggedIn.value = true;
-    });
+    EventHandler.on('loggedIn', () => loggedIn.value = true);
     EventHandler.on('loggedOut', () => loggedIn.value = false);
 
     EventHandler.on('openSkinChanger', () => {
@@ -55,8 +49,8 @@ export default {
 
 
     EventHandler.on('openSettings', () => {
-      game.value.settings.defaultTabButton.value.click();
-      game.value.settings.updateSettings();
+      game.settings.defaultTabButton.value.click();
+      game.settings.updateSettings();
       popupShow('mainSettings', 250);
     });
     EventHandler.on('closeSettings', () => {

@@ -88,10 +88,10 @@ export default class Player {
     cacheSkin() {
         if (this.skinCode) {
             let skinSprite = new PIXI.Sprite.from(`https://i.imgur.com/${this.skinCode}.png`);
-                skinSprite.width = 512;
-                skinSprite.height = 512;
                 skinSprite.mask = new PIXI.Graphics().beginFill(0xffffff).drawCircle(256, 256, 256).endFill();
-            this.cellTemplate.skinTexture = skinSprite.texture;
+            setTimeout(() => {
+                this.cellTemplate.skinTexture = this.game.scene.renderer.generateTexture(skinSprite);
+            }, 100);
         }
     }
 }
