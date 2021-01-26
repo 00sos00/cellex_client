@@ -2,9 +2,8 @@ import PacketHandler from './PacketHandler';
 import Writer from './Writer';
 
 export default class Socket {
-    constructor(game, ws) {
+    constructor(game) {
         this.game = game;
-        this.WebSocket = ws;
         this.wsConnection = null;
         this.packetHandler = new PacketHandler(this);
     }
@@ -22,13 +21,11 @@ export default class Socket {
             this.wsConnection.close();
 
         if (ip) {
-            let ws = new this.WebSocket(ip);
-            this.wsConnection = ws;
+            this.wsConnection = new WebSocket(ip);
             this.wsConnection.binaryType = "arraybuffer";
             this.wsConnection.onopen = this.onOpen.bind(this);
             this.wsConnection.onclose = this.onClose.bind(this);
             this.wsConnection.onmessage = this.onMessage.bind(this);
-            ws = null;
         }
     }
 

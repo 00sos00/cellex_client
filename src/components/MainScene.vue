@@ -21,7 +21,7 @@
       </div>
       <div id="mainChat" @mouseover="chatMouseOver" @mouseout="chatMouseOut">
         <div id="messages"></div>
-        <input @focus="onChatFocus" @blur="onChatBlur" type="text" id="chatInput" maxlength="256" spellcheck="false" placeholder="Press Enter To Chat" autocomplete="off">
+        <input @focus="onChatFocus" @blur="onChatBlur" type="text" id="chatInput" maxlength="256" spellcheck="false" placeholder="Press enter to chat" autocomplete="off">
       </div>
       <div id="mainMinimap">
         <canvas id="minimapCanvas"></canvas>
@@ -175,8 +175,8 @@ export default {
 
 
 #mainChat {
-  width: 300px;
-  height: 250px;
+  width: 430px;
+  height: 240px;
 
   background-color: #1b1e2791;
 
@@ -188,7 +188,7 @@ export default {
   border-right: 2px #15181f solid;
   border-top-right-radius: 5px;
   z-index: 1;
-  user-select:initial !important;
+  user-select: auto !important;
 }
 #messages {
   width: 100%;
@@ -221,6 +221,8 @@ export default {
   margin: 0;
   margin-bottom: 5px;
   text-indent: 12px;
+  float: left;
+  word-break: break-all;
 }
 .messageName {
   color: rgba(255, 255, 255, 0.521);
@@ -239,19 +241,19 @@ export default {
 
   color: white;
   font-size: 16px;
-  font-family: 'Quicksand';
+  font-family: 'Arial';
   background-color: #252933b2;
 
   border: none;
   outline: none;
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
+  text-indent: 5px;
 }
 #chatInput::placeholder {
   color: #424857;
   font-size: 16px;
-  font-family: 'Quicksand';
-  text-align: center;
+  text-align: left;
 }
 
 

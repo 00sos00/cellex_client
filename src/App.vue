@@ -1,6 +1,6 @@
 <template>
   <Auth v-if="!loggedIn" :game="game"/>
-  <MainPlay :game="game"/>
+  <MainPlay v-if="loggedIn" :game="game"/>
   <MainSettings :game="game"/>
   <SkinChanger :game="game"/>
   <MainScene :game="game"/>
@@ -31,13 +31,12 @@ export default {
     const self = getCurrentInstance();
     const EventHandler = self.appContext.config.globalProperties.EventHandler;
     const { popupShow, popupHide } = getPopupFunctions();
-    const loggedIn = ref(true);
-    const ws = window['WebSocket'];
-    delete window['WebSocket'];
-    const game = new Game(ws);
+    const loggedIn = ref(false);
+    const game = new Game();
 
-
-    EventHandler.on('loggedIn', () => loggedIn.value = true);
+    EventHandler.on('loggedIn', () => {
+      loggedIn.value = true;
+    });
     EventHandler.on('loggedOut', () => loggedIn.value = false);
 
     EventHandler.on('openSkinChanger', () => {
@@ -49,9 +48,9 @@ export default {
 
 
     EventHandler.on('openSettings', () => {
-      game.settings.defaultTabButton.value.click();
-      game.settings.updateSettings();
       popupShow('mainSettings', 250);
+      game.settings.updateSettings();
+      game.settings.defaultTabButton.value.click();
     });
     EventHandler.on('closeSettings', () => {
       popupHide('mainSettings', 250);

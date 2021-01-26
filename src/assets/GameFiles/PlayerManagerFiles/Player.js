@@ -40,7 +40,7 @@ export default class Player {
         this.SPEC = data.SPEC;
         this.PLAY = data.PLAY;
         this.updateVisibleCells();
-        if (this.isMe && !this.game.mainOpen && this.game.ownedCells.size <= 0 && !this.SPEC)
+        if (this.game.ownedCells.size <= 0 && !this.SPEC)
             this.game.showMain();
     }
 
@@ -88,7 +88,10 @@ export default class Player {
     cacheSkin() {
         if (this.skinCode) {
             let skinSprite = new PIXI.Sprite.from(`https://i.imgur.com/${this.skinCode}.png`);
-                skinSprite.mask = new PIXI.Graphics().beginFill(0xffffff).drawCircle(256, 256, 256).endFill();
+                skinSprite.width = 512;
+                skinSprite.height = 512;
+                skinSprite.anchor.set(0.5);
+                skinSprite.mask = new PIXI.Graphics().beginFill(0xffffff).drawCircle(0, 0, 256).endFill();
             setTimeout(() => {
                 this.cellTemplate.skinTexture = this.game.scene.renderer.generateTexture(skinSprite);
             }, 100);

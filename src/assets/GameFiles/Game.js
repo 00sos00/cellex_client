@@ -5,8 +5,8 @@ import HotkeysHandler from './HotkeysHandler';
 import PlayerManager from './PlayerManagerFiles/PlayerManager';
 
 export default class Game {
-    constructor(ws) {
-        this.socket = new Socket(this, ws);
+    constructor() {
+        this.socket = new Socket(this);
         this.hotkeysHandler = new HotkeysHandler(this);
         this.playerManager = new PlayerManager(this);
         this.Ping = 0;

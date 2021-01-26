@@ -46,7 +46,6 @@ export default class HotkeysHandler {
     }
 
     onKeyUp(e) {
-        if (this.game.mainOpen) return;
         switch(e.code) {
             case this.hotkeys["Feed"].value: {
                 this.game.socket.packetHandler.stopFeeding();
@@ -60,7 +59,7 @@ export default class HotkeysHandler {
                     chatInput.blur();
                     chatInput.value = '';
                 } else {
-                    chatInput.focus();
+                    !this.game.mainOpen && chatInput.focus();
                 }
                 break;
             }
@@ -103,7 +102,6 @@ export default class HotkeysHandler {
     }
 
     onMouseUp(e) {
-        if (this.game.mainOpen) return;
         switch(e.which) {
             case parseInt(this.hotkeys["Feed"].value[5], 10): {
                 this.game.socket.packetHandler.stopFeeding();

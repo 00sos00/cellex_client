@@ -25,6 +25,9 @@ export default class Cell {
         this.nameSprite = this.createNameSprite();
         this.skinSprite = this.createSkinSprite();
         this.massText = this.createMassText();
+        this.updateNameVisiblity();
+        this.updateMassVisiblity();
+        this.updateSkinVisiblity();
         if (this.owner) {
             this.skinSprite && this.sprite.addChild(this.skinSprite);
             this.nameSprite && this.sprite.addChild(this.nameSprite);
@@ -38,8 +41,6 @@ export default class Cell {
     createSkinSprite() {
         if (this.owner && this.owner.cellTemplate.skinTexture) {
             let skinSprite = new PIXI.Sprite(this.owner.cellTemplate.skinTexture);
-                skinSprite.width = 512;
-                skinSprite.height = 512;
                 skinSprite.anchor.set(0.5);
             return skinSprite;
         }
@@ -79,6 +80,9 @@ export default class Cell {
 
     update() {
         this.updateSprite();
+        let shortMass = this.game.settings.template.options["Mass Type"].value == "SHORT";
+        if (this.s != this.ns && this.massText)
+            this.massText.text = shortMass ? this.getShortMass() : Math.floor(this.s * this.s / 100);
     }
 
     updateSprite() {
@@ -95,7 +99,10 @@ export default class Cell {
             this.sprite.height = this.s * 2;
             this.sprite.zIndex = Math.floor(this.s * 2);
         }
+        this.lastUpdateTime = currentTime;
+    }
 
+    updateVisiblity() {
         let noLag = this.game.settings.template.options["No Lag"].value == "ON";
         switch(this.type) {
             case 'Player': {
@@ -123,7 +130,6 @@ export default class Cell {
                 break;
             }
         }
-        this.lastUpdateTime = currentTime;
     }
 
     updateNameVisiblity() {
@@ -142,18 +148,12 @@ export default class Cell {
         let mass = this.game.settings.template.options["Mass"].value;
         let noLag = this.game.settings.template.options["No Lag"].value;
         if (mass != "OFF" && noLag != "ON") {
-            var shortMass = this.game.settings.template.options["Mass Type"].value == "SHORT";
             var _1 = (this.viewRange > 70 && mass == "ALL" && this.owner.visibleCells.includes(this) && (this.isMine || !this.isMine));
             var _2 = (this.viewRange > 70 && mass == "TAG" && this.owner.inTag && this.owner.visibleCells.includes(this));
             var _3 = (this.viewRange > 70 && mass == "SELF" && this.isMine && this.owner.visibleCells.includes(this));
             var _4 = (this.viewRange > 70 && mass == "HIDE SELF" && !this.isMine && this.owner.visibleCells.includes(this));
         }
-        if (_1 || _2 || _3 || _4 && this.massText) {
-            this.massText.visible = true;
-            this.massText.text = shortMass ? this.getShortMass() : Math.floor(this.s * this.s / 100);
-        } else {
-            if (this.massText) this.massText.visible = false;
-        }
+        if (this.massText) this.massText.visible = _1 || _2 || _3 || _4;
     }
 
     updateHatVisiblity() {

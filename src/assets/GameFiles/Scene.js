@@ -14,6 +14,15 @@ export default class Scene {
             resizeTo: window
         });
         this.prepareResources(mainScene);
+        this.minimapCanvas = document.getElementById('minimapCanvas');
+        this.minimapCtx = this.minimapCanvas.getContext('2d');
+        this.minimapCanvas.width = 200;
+        this.minimapCanvas.height = 200; 
+        setInterval(() => {
+            this.game.gameCells.forEach(cell => {
+                cell.updateVisiblity();
+            });
+        }, 200);
     }
     
     lerp (start, end, amount) {
@@ -112,10 +121,11 @@ export default class Scene {
         else 
             isScrollingChat = true;
         messages.forEach(msg => {
-            html += `<div class="message">
+            msg.text = msg.text.replace(/(<([^>]+)>)/ig, "");
+            html += `<span class="message">
                         <span class="messageName">${msg.name}:</span>
                         <span class="messageText">${msg.text}</span>
-                     </div>`
+                     </span>`;
         });
         messagesElement.innerHTML = html;
         if (!isScrollingChat)
@@ -123,30 +133,26 @@ export default class Scene {
     }
 
     updateMinimap() {
-        let minimapCanvas = document.getElementById('minimapCanvas');
         let minimapSize = 200;
         let borderSize = (this.game.border.width + this.game.border.height) / 2;
         let ratio = borderSize / minimapSize;
-        if (minimapCanvas) {
-            minimapCanvas.width = minimapSize;
-            minimapCanvas.height = minimapSize;
-            let ctx = minimapCanvas.getContext('2d');
-                ctx.clearRect(0, 0, minimapCanvas.width, minimapCanvas.height)
+        if (this.minimapCanvas) {
+                this.minimapCtx.clearRect(0, 0, this.minimapCanvas.width, this.minimapCanvas.height)
             this.game.playerManager.getAllPlayers().forEach(player => {
                 if (player.inTag && (player.PLAY || (player.SPEC && player.isMe))) {
                     player.positionX = this.lerp(player.positionX, player.newPositionX, 0.2);
                     player.positionY = this.lerp(player.positionY, player.newPositionY, 0.2);
                     let x = player.positionX / ratio + borderSize / 2 / ratio;
                     let y = player.positionY / ratio + borderSize / 2 / ratio;
-                    ctx.beginPath();
-                        ctx.fillStyle = '#ffffff';
-                        ctx.font = "15px Arial";
-                        ctx.textAlign = "center";
-                        player.isMe || ctx.fillText(player.name, x, y + 25);
-                        ctx.fillStyle = player.isMe ? '#ffffff' : '#2596be';
-                        ctx.arc(x, y, 5, 0, Math.PI * 2);
-                        ctx.fill();
-                    ctx.closePath();
+                    this.minimapCtx.beginPath();
+                        this.minimapCtx.fillStyle = '#ffffff';
+                        this.minimapCtx.font = "15px Arial";
+                        this.minimapCtx.textAlign = "center";
+                        player.isMe || this.minimapCtx.fillText(player.name, x, y + 25);
+                        this.minimapCtx.fillStyle = player.isMe ? '#ffffff' : '#2596be';
+                        this.minimapCtx.arc(x, y, 5, 0, Math.PI * 2);
+                        this.minimapCtx.fill();
+                    this.minimapCtx.closePath();
                 }
             });
         }
@@ -183,7 +189,6 @@ export default class Scene {
     }
 
     updateCameraScale(e) {
-        console.log(window.canZoom)
         if (window.canZoom) {
             let camera = this.game.camera;
             let zoomSpeed = this.game.settings.template.ranges["Zoom Speed"].value;
