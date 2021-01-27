@@ -46,18 +46,16 @@ export default {
       document.getElementById('tag').value = localStorage.getItem('tag');
     });
 
-    const joinGame = game.socket.packetHandler.joinGame.bind(game);
+    const joinGame = game.joinGame.bind(game)
     const spectate = game.socket.packetHandler.startSpectating.bind(game);
 
     const onNameChange = (e) => {
       const name = e.target.value;
-      game.socket.packetHandler.sendName(name);
       localStorage.setItem('name', name);
     }
 
     const onTagChange = (e) => {
       const tag = e.target.value;
-      game.socket.packetHandler.sendTag(tag);
       localStorage.setItem('tag', tag);
     }
     

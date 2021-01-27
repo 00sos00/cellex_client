@@ -10,42 +10,6 @@ export default class PacketHandler {
     }
 
     // <=== PACKETS TO SEND ===>
-    sendName(name) {
-        if (!this.socket.isConnectionOpen()) return;
-        let packet = new Writer(true);
-        packet.setUint8(0);
-        packet.setStringUTF8(name);
-        if (packet.build)
-            this.socket.wsConnection.send(packet.build());
-        else 
-            this.socket.wsConnection.send(packet);
-        packet = null;
-    }
-
-    sendSkin(skinCode) {
-        if (!this.socket.isConnectionOpen()) return;
-        let packet = new Writer(true);
-        packet.setUint8(1);
-        packet.setStringUTF8(skinCode);
-        if (packet.build)
-            this.socket.wsConnection.send(packet.build());
-        else 
-            this.socket.wsConnection.send(packet);
-        packet = null;
-    }
-
-    sendTag(tag) {
-        if (!this.socket.isConnectionOpen()) return;
-        let packet = new Writer(true);
-        packet.setUint8(2);
-        packet.setStringUTF8(tag);
-        if (packet.build)
-            this.socket.wsConnection.send(packet.build());
-        else 
-            this.socket.wsConnection.send(packet);
-        packet = null;
-    }
-
     sendPingRequest() {
         if (!this.socket.isConnectionOpen()) return;
         let packet = new Writer(true);
@@ -85,9 +49,17 @@ export default class PacketHandler {
         packet = null;
     }
 
-    joinGame() {
-        this.socket.sendPacket(6);
-        this.socket.game.hideMain();
+    joinGame(data) {
+        if (!this.socket.isConnectionOpen()) return;
+        let packet = new Writer(true);
+                
+        packet.setUint8(6);
+        packet.setStringUTF8(JSON.stringify(data));
+        if (packet.build)
+            this.socket.wsConnection.send(packet.build());
+        else 
+            this.socket.wsConnection.send(packet);
+        packet = null;
     }
 
     startFeeding() {
@@ -134,15 +106,17 @@ export default class PacketHandler {
         this.socket.game.playerManager.getPlayerById(playerId).cacheNameText();
     }
 
-    onCacheSkin(reader) {
+    onCachePlayer(reader) {
         const playerId = reader.getUint16();
-        this.socket.game.playerManager.getPlayerById(playerId).cacheSkin();
+        const playerName = reader.getStringUTF8();
+        const playerSkinCode = reader.getStringUTF8();
+        this.socket.game.playerManager.getPlayerById(playerId).cacheNameText(playerName);
+        this.socket.game.playerManager.getPlayerById(playerId).cacheSkin(playerSkinCode);
     }
 
     onPing(reader) {
         const ping = reader.getStringUTF8();
         this.socket.game.Ping = isNaN(ping) ? 0 : ping < 0 ? 0 : parseInt(ping, 10);
-        console.log(this.socket.game.Ping)
     }
 
     updateCells(reader) {
@@ -317,8 +291,8 @@ export default class PacketHandler {
                 this.onCacheName(reader);
                 break;
             }
-            case packets['CACHE_SKIN']: {
-                this.onCacheSkin(reader);
+            case packets['CACHE_PLAYER']: {
+                this.onCachePlayer(reader);
                 break;
             }
             case packets['PING']: {

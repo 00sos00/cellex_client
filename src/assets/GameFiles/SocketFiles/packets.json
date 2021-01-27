@@ -1,6 +1,6 @@
 {
     "CACHE_NAME":     2,
-    "CACHE_SKIN":     3,
+    "CACHE_PLAYER":     3,
     "PING":           10,
     "UPDATE_CELLS":   16,
     "SPECTATE_POS":   17,

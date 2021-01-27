@@ -54,9 +54,6 @@ export default class Socket {
 
     onOpen() {
         console.log('Socket opened')
-        this.packetHandler.sendName(localStorage.getItem('name') || '');
-        this.packetHandler.sendSkin(localStorage.getItem('skinCode') || '');
-        this.packetHandler.sendTag(localStorage.getItem('tag') || '');
         this.game.scene.app.ticker.start();
         this.startPingLoop();
     }

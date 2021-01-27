@@ -61,9 +61,9 @@ export default class Player {
         }
     }
 
-    cacheNameText() {
+    cacheNameText(name) {
         let renderTexture = PIXI.RenderTexture.create(612, 200);
-        let text = new PIXI.Text(this.name, {
+        let text = new PIXI.Text(name || this.name, {
             fontFamily: "Quicksand",
             fontSize: 80,
             stroke: true,
@@ -83,9 +83,9 @@ export default class Player {
         this.cellTemplate.nameTexture = renderTexture;
     }
 
-    cacheSkin() {
-        if (this.skinCode) {
-            let skinSprite = new PIXI.Sprite.from(`https://i.imgur.com/${this.skinCode}.png`);
+    cacheSkin(skinCode) {
+        if (skinCode || this.skinCode) {
+            let skinSprite = new PIXI.Sprite.from(`https://i.imgur.com/${skinCode || this.skinCode}.png`);
                 skinSprite.width = 512;
                 skinSprite.height = 512;
                 skinSprite.anchor.set(0.5);

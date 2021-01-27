@@ -33,6 +33,7 @@ export default class HotkeysHandler {
             }
             case this.hotkeys["Respawn"].value: {
                 this.game.socket.packetHandler.respawn();
+                this.game.joinGame();
                 break;
             }
             case this.hotkeys["Toggle Menu"].value: {
@@ -94,6 +95,7 @@ export default class HotkeysHandler {
             }
             case parseInt(this.hotkeys["Respawn"].value[5], 10): {
                 this.game.socket.packetHandler.respawn();
+                this.game.joinGame();
                 break;
             }
             default:

@@ -53,22 +53,15 @@ export default class SkinChanger {
         });
     }
 
-    saveSkin(e) {
+    saveSkin() {
         this.checkSkin().then(isValid => {
             if (!isValid) {
                 this.addErrorMessage('Please Use A Different Skin Code');
             } else {
                 this.removeErrors();
-                e.target.classList.add('saveBtnLoading');
-                e.target.disabled = true;
                 this.lastSkinCode = this.skinCode;
-                this.game.socket.packetHandler.sendSkin(this.skinCode);
                 localStorage.setItem('skinCode', this.skinCode);
-                setTimeout(() => {
-                    e.target.disabled = false;
-                    e.target.classList.remove('saveBtnLoading');
-                    this.EventHandler.emit('closeSkinChanger');
-                }, 3000);
+                this.EventHandler.emit('closeSkinChanger');
             }
         });
     }

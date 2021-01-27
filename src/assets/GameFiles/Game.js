@@ -57,6 +57,14 @@ export default class Game {
         this.mainOpen = true;
     }
 
+    joinGame() {
+        let name = localStorage.getItem('name') || '';
+        let tag = localStorage.getItem('tag') || '';
+        let skinCode = localStorage.getItem('skinCode') || '';
+        this.socket.packetHandler.joinGame({name, tag, skinCode});
+        this.hideMain();
+    }
+
     showMain() {
         $(".main").fadeIn(250);
         this.mainOpen = true;
