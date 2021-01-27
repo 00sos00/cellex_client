@@ -64,7 +64,7 @@ export default class Player {
     cacheNameText(name) {
         let renderTexture = PIXI.RenderTexture.create(612, 200);
         let text = new PIXI.Text(name || this.name, {
-            fontFamily: "Quicksand",
+            fontFamily: "Arial",
             fontSize: 80,
             stroke: true,
             strokeThickness: 7,
@@ -76,23 +76,20 @@ export default class Player {
         text.position.set(306, 100);
         if (this.game.scene.renderer)
             this.game.scene.renderer.render(text, renderTexture);
-        else
-            return;
-        if (this.cellTemplate.nameTexture)
-            this.cellTemplate.nameTexture.destroy();
         this.cellTemplate.nameTexture = renderTexture;
     }
 
     cacheSkin(skinCode) {
         if (skinCode || this.skinCode) {
-            let skinSprite = new PIXI.Sprite.from(`https://i.imgur.com/${skinCode || this.skinCode}.png`);
-                skinSprite.width = 512;
-                skinSprite.height = 512;
-                skinSprite.anchor.set(0.5);
-                skinSprite.mask = new PIXI.Graphics().beginFill(0xffffff).drawCircle(0, 0, 256).endFill();
-            setTimeout(() => {
+            let skinTexture = PIXI.Texture.fromURL(`https://i.imgur.com/${skinCode || this.skinCode}.png`);
+            skinTexture.then(texture => {
+                let skinSprite = new PIXI.Sprite(texture);
+                    skinSprite.width = 512;
+                    skinSprite.height = 512;
+                    skinSprite.anchor.set(0.5);
+                    skinSprite.mask = new PIXI.Graphics().beginFill(0xffffff).drawCircle(0, 0, 256).endFill();
                 this.cellTemplate.skinTexture = this.game.scene.renderer.generateTexture(skinSprite);
-            }, 100);
+            });
         }
     }
 }

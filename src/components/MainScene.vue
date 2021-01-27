@@ -219,7 +219,7 @@ export default {
   word-break: break-all;
 }
 .messageName {
-  color: rgba(255, 255, 255, 0.521);
+  color: #4480d4;
   font-size: 16px;
   font-family: 'Arial';
 }

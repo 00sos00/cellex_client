@@ -39,8 +39,10 @@ export default class Cell {
     }
 
     createSkinSprite() {
-        if (this.owner && this.owner.cellTemplate.skinTexture) {
-            let skinSprite = new PIXI.Sprite(this.owner.cellTemplate.skinTexture);
+        if (this.owner) {
+            let skinTexture = this.owner.cellTemplate.skinTexture;
+            if (!skinTexture) return;
+            let skinSprite = new PIXI.Sprite(skinTexture);
                 skinSprite.anchor.set(0.5);
             return skinSprite;
         }
@@ -49,6 +51,7 @@ export default class Cell {
     createNameSprite() {
         if (this.owner && this.owner.name) {
             let nameTexture = this.owner.cellTemplate.nameTexture;
+            if (!nameTexture) return;
             let nameSprite  = new PIXI.Sprite(nameTexture);
             nameSprite.anchor.set(0.5);
             return nameSprite;
