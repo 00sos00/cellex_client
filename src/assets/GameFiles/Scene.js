@@ -229,7 +229,7 @@ export default class Scene {
 
             font.load().then(() => {
                 PIXI.BitmapFont.from("Mass", {
-                    fontFamily: "Nunito",
+                    fontFamily: "Quicksand",
                     fontSize: 45,
                     strokeThickness: 6,
                     fill: 0xffffff

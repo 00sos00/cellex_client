@@ -135,7 +135,7 @@ export default class Cell {
     updateNameVisiblity() {
         let names = this.game.settings.template.options["Names"].value;
         let noLag = this.game.settings.template.options["No Lag"].value;
-        if (names != "OFF" && noLag != "ON") {
+        if (names != "OFF" && noLag != "ON" && this.owner) {
             var _1 = (this.viewRange > 70 && names == "ALL" && this.owner.visibleCells.includes(this) && (this.isMine || !this.isMine));
             var _2 = (this.viewRange > 70 && names == "TAG" && this.owner.inTag && this.owner.visibleCells.includes(this));
             var _3 = (this.viewRange > 70 && names == "SELF" && this.isMine && this.owner.visibleCells.includes(this));
@@ -147,7 +147,7 @@ export default class Cell {
     updateMassVisiblity() {
         let mass = this.game.settings.template.options["Mass"].value;
         let noLag = this.game.settings.template.options["No Lag"].value;
-        if (mass != "OFF" && noLag != "ON") {
+        if (mass != "OFF" && noLag != "ON" && this.owner) {
             var _1 = (this.viewRange > 70 && mass == "ALL" && this.owner.visibleCells.includes(this) && (this.isMine || !this.isMine));
             var _2 = (this.viewRange > 70 && mass == "TAG" && this.owner.inTag && this.owner.visibleCells.includes(this));
             var _3 = (this.viewRange > 70 && mass == "SELF" && this.isMine && this.owner.visibleCells.includes(this));
@@ -163,7 +163,7 @@ export default class Cell {
     updateSkinVisiblity() {
         let skins = this.game.settings.template.options["Skins"].value;
         let noLag = this.game.settings.template.options["No Lag"].value;
-        if (skins != "OFF" && noLag != "ON") {
+        if (skins != "OFF" && noLag != "ON" && this.owner) {
             var _1 = (skins == "ALL");
             var _2 = (skins == "TAG" && this.owner.inTag);
             var _3 = (skins == "SELF" && this.isMine);
@@ -189,5 +189,7 @@ export default class Cell {
             this.game.motherCells.delete(this.id);
         if (this.sprite)
             this.sprite.destroy();
+        if (this.game.ownedCells.size == 0 && this.owner && this.owner.isMe && !this.owner.SPEC)
+            this.game.showMain();
     }
 }

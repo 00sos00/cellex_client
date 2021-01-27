@@ -142,6 +142,7 @@ export default class PacketHandler {
     onPing(reader) {
         const ping = reader.getStringUTF8();
         this.socket.game.Ping = isNaN(ping) ? 0 : ping < 0 ? 0 : parseInt(ping, 10);
+        console.log(this.socket.game.Ping)
     }
 
     updateCells(reader) {

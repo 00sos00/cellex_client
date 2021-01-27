@@ -40,8 +40,6 @@ export default class Player {
         this.SPEC = data.SPEC;
         this.PLAY = data.PLAY;
         this.updateVisibleCells();
-        if (this.game.ownedCells.size <= 0 && !this.SPEC)
-            this.game.showMain();
     }
 
     getMass() {
@@ -66,7 +64,7 @@ export default class Player {
     cacheNameText() {
         let renderTexture = PIXI.RenderTexture.create(612, 200);
         let text = new PIXI.Text(this.name, {
-            fontFamily: "Nunito",
+            fontFamily: "Quicksand",
             fontSize: 80,
             stroke: true,
             strokeThickness: 7,

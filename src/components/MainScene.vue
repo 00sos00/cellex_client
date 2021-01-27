@@ -101,7 +101,7 @@ export default {
   width: auto;
   height: 40px;
   max-zoom: 200;
-  background-color: #1b1e2791;
+  background-color: #2026308a;
 
   position: absolute;
   left: 0px;
@@ -110,8 +110,6 @@ export default {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  border-right: 2px #15181f solid;
-  border-bottom: 2px #15181f solid;
   border-bottom-right-radius: 5px;
   z-index: 1;
 }
@@ -138,14 +136,12 @@ export default {
   max-width: 200px;
   max-height: 300px;
 
-  background-color: #1b1e2791;
+  background-color: #2026308a;
 
   position: absolute;
   right: 0px;
   top: 0px;
 
-  border-left: 2px #15181f solid;
-  border-bottom: 2px #15181f solid;
   border-bottom-left-radius: 5px;
   z-index: 1;
 }
@@ -178,14 +174,12 @@ export default {
   width: 430px;
   height: 240px;
 
-  background-color: #1b1e2791;
+  background-color: #2026308a;
 
   position: absolute;
   bottom: 0px;
   left: 0px;
 
-  border-top: 2px #15181f solid;
-  border-right: 2px #15181f solid;
   border-top-right-radius: 5px;
   z-index: 1;
   user-select: auto !important;
@@ -266,14 +260,12 @@ export default {
   width: 200px;
   height: 200px;
 
-  background-color: #1b1e2791;
+  background-color: #2026308a;
 
   position: absolute;
   bottom: 0px;
   right: 0px;
 
-  border-top: 2px #15181f solid;
-  border-left: 2px #15181f solid;
   border-top-left-radius: 5px;
   z-index: 1;
 }
