@@ -192,7 +192,9 @@ export default class Cell {
             this.game.motherCells.delete(this.id);
         if (this.sprite)
             this.sprite.destroy();
-        if (this.game.ownedCells.size == 0 && this.owner && this.owner.isMe && !this.owner.SPEC)
-            this.game.showMain();
+        setTimeout(() => {
+            if (this.game.ownedCells.size == 0 && this.owner && this.owner.isMe && !this.owner.SPEC)
+                this.game.showMain();
+        }, 50);
     }
 }

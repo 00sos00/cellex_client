@@ -7,7 +7,7 @@ export default class Scene {
         this.game.scene = this;
         this.app  = new PIXI.Application({
             resolution: 1,
-            backgroundColor: 0x111111,
+            backgroundColor: 0x101010,
             antialias: true,
             autoStart: false,
             forceCanvas: false,
@@ -36,10 +36,10 @@ export default class Scene {
     mainLoop() {
         this.updateStats();
         this.updateMinimap();
+        this.game.gameCells.forEach(cell => cell.update());
         this.updateCamera();
         this.sendMousePosition();
         this.updateBackgroundColor();
-        this.game.gameCells.forEach(cell => cell.update());
     }
 
     drawBorder() {
@@ -149,7 +149,7 @@ export default class Scene {
                         this.minimapCtx.font = "15px Arial";
                         this.minimapCtx.textAlign = "center";
                         player.isMe || this.minimapCtx.fillText(player.name, x, y + 25);
-                        this.minimapCtx.fillStyle = player.isMe ? '#ffffff' : '#2596be';
+                        this.minimapCtx.fillStyle = player.isMe ? '#ffffff' : '#4480d4';
                         this.minimapCtx.arc(x, y, 5, 0, Math.PI * 2);
                         this.minimapCtx.fill();
                     this.minimapCtx.closePath();
@@ -176,7 +176,7 @@ export default class Scene {
             cameraY = y / this.game.ownedCells.size;
             camera.x = this.lerp(camera.x, cameraX, cameraSpeed);
             camera.y = this.lerp(camera.y, cameraY, cameraSpeed);
-            if (autoZoom && ownPlayer) camera.zoom = Math.pow(ownPlayer.size / ownPlayer.cellsAmount, .11) / 25;
+            if (autoZoom && ownPlayer) camera.zoom = Math.pow(ownPlayer.size / ownPlayer.cellsAmount / ownPlayer.size * 500, .11) / 25;
             camera.scale = this.lerp(camera.scale, camera.zoom, 0.2);
         } else {
             camera.x = this.lerp(camera.x, camera.spectateX, cameraSpeed);
@@ -229,7 +229,7 @@ export default class Scene {
 
             font.load().then(() => {
                 PIXI.BitmapFont.from("Mass", {
-                    fontFamily: "Arial",
+                    fontFamily: "Quicksand",
                     fontSize: 45,
                     strokeThickness: 6,
                     fill: 0xffffff
@@ -246,7 +246,7 @@ export default class Scene {
                 window.onwheel = this.updateCameraScale.bind(this);
                 window.onmousemove = this.onMouseMove.bind(this);
                 mainScene.appendChild(this.app.view);
-                this.game.socket.connect('antha.run-eu-central1.goorm.io');
+                this.game.socket.connect('localhost:4444');
             });
         });
     }

@@ -145,7 +145,7 @@ export default {
 }
 #xpCircleProgress {
     fill: none;
-    stroke: #3498f7;
+    stroke: #4480d4;
     stroke-width: 15;
     stroke-dasharray: calc(71.25 * 2 * 3.141592653589793);
     stroke-dashoffset: 200;
@@ -168,18 +168,20 @@ export default {
 
 
 #skinHolder {
-  width: 127px;
-  height: 127px;
-  border: 1px #3498f7 solid;
+  width: 128px;
+  height: 128px;
+  border: 3px #4480d4 solid;
   border-radius: 50%;
 
   background-color: transparent;
 
-  text-align: center;
   position: relative;
   top: 22px;
   left: 50%;
   transform: translate(-50%);
+
+  box-sizing: border-box;
+  text-align: center;
 }
 .skinImage {
   width: 100%;
@@ -187,15 +189,15 @@ export default {
   border-radius: 50%;
 
   background-color: #3498f7;
-  box-shadow: inset 0px 0px 50px #1b1e27
+  box-shadow: inset 0px 0px 50px #1b1e27;
+  opacity: 0.3;
 }
 .skinImage:hover {
   cursor: pointer;
-  box-shadow: inset 0px 0px 10px #1b1e27;
   opacity: 0.2;
 }
 .skinImage:hover + #changeSkinText {
-  opacity: 1;
+  opacity: 0.5;
 }
 #changeSkinText {
   color: white;
@@ -209,7 +211,7 @@ export default {
   transform: translate(-50%, -50%);
   margin: 0;
 
-  opacity: 0;
+  opacity: 1;
   white-space: nowrap;
   pointer-events: none;
 }

@@ -36,11 +36,6 @@ export default class HotkeysHandler {
                 this.game.joinGame();
                 break;
             }
-            case this.hotkeys["Toggle Menu"].value: {
-                !e.repeat && this.game.showMain();
-                !e.repeat && this.game.socket.packetHandler.stopSpectating();
-                break;
-            }
             default:
                 break;
         }
@@ -62,6 +57,11 @@ export default class HotkeysHandler {
                 } else {
                     !this.game.mainOpen && chatInput.focus();
                 }
+                break;
+            }
+            case "Escape": {
+                !e.repeat && this.game.showMain();
+                !e.repeat && this.game.socket.packetHandler.stopSpectating();
                 break;
             }
             default:

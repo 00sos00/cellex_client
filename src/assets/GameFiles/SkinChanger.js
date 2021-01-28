@@ -1,5 +1,3 @@
-/* import { load } from 'nsfwjs'; */
-
 export default class SkinChanger {
     constructor(game, EventHandler, defaultSkinCode) {
         this.game = game;
@@ -8,9 +6,6 @@ export default class SkinChanger {
         this.skinCode = '';
         this.lastSkinCode = localStorage.getItem('skinCode') || '';
         this.defaultSkinCode = defaultSkinCode;
-        /* load().then(model => {
-            this.nsfwjsModel = model;
-        }); */
     }
 
     setSkinCode(code) {
@@ -42,11 +37,7 @@ export default class SkinChanger {
 
     checkSkin() {
         return new Promise(resolve => {
-            // Check if skin code is valid
-            //const imgurRegex = /^https?:\/\/(\w+\.)?imgur.com\/(\w*\d\w*)+(\.[a-zA-Z]{3})?$/g;
-            //const isValidSkin = imgurRegex.test(`https://i.imgur.com/${this.skinCode}.png`);
-
-            if (!this.skinCode || this.skinCode.length != 7 || this.skinCode == this.lastSkinCode)
+            if (!this.skinCode || this.skinCode.length != 7)
                 resolve(false);
             else
                 resolve(true);
@@ -76,12 +67,6 @@ export default class SkinChanger {
     onMounted() {
         document.getElementById('skinCode').value = this.lastSkinCode || this.skinCode;
         this.setSkinCode(localStorage.getItem('skinCode') || this.skinCode);
-        this.checkSkin().then(isValid => {
-            if (isValid) {
-                this.updateImageElements(this.skinCode);
-            } else {
-                this.updateImageElements(this.lastSkinCode || this.defaultSkinCode);
-            }
-        });
+        this.updateImageElements(this.lastSkinCode || this.defaultSkinCode);
     }
 }

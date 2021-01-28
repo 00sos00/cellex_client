@@ -137,28 +137,23 @@
             "name": "Respawn",
             "value": "KeyD",
             "defaultValue": "KeyD"
-        },
-        "Toggle Menu": {
-            "name": "Toggle Menu",
-            "value": "Escape",
-            "defaultValue": "Escape"
         }
     },
     "colors": {
         "Background": {
             "name": "Background",
-            "value": "FFFFFF",
-            "defaultValue": "FFFFFF"
+            "value": "101010",
+            "defaultValue": "101010"
         },
         "Border": {
             "name": "Border",
-            "value": "3FFFFF",
-            "defaultValue": "3FFFFF"
+            "value": "FFFFFF",
+            "defaultValue": "FFFFFF"
         },
         "Pellets": {
             "name": "Pellets",
-            "value": "12FFFF",
-            "defaultValue": "12FFFF"
+            "value": "4480d4",
+            "defaultValue": "4480d4"
         }
     }
 }
