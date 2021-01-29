@@ -88,6 +88,12 @@ export default class Player {
                 skinSprite.anchor.set(0.5);
                 skinSprite.mask = new PIXI.Graphics().beginFill(0xffffff).drawCircle(0, 0, 256).endFill();
             this.cellTemplate.skinTexture = this.game.scene.renderer.generateTexture(skinSprite);
+            this.game.playerCells.forEach(cell => {
+                if (cell.pID == this.id && cell.skinSprite) {
+                    if (cell.skinSprite.texture != this.cellTemplate.skinTexture)
+                        cell.skinSprite.texture = this.cellTemplate.skinTexture
+                }
+            });
         }
     }
 }

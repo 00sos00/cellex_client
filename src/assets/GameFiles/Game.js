@@ -20,8 +20,8 @@ export default class Game {
             y: 0,
             spectateX: 0,
             spectateY: 0,
-            scale: 1,
-            zoom: 1
+            scale: 0.1,
+            zoom: 0.1
         }
         this.border = {
             top: 0,

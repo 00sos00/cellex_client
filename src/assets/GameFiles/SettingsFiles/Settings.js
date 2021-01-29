@@ -1,7 +1,8 @@
 /*global $, jQuery*/
 
 import settingsTemplate from './settingsTemplate.json';
-import { merge } from 'lodash'
+import { showNotif } from '../../Functions/showNotif';
+import { merge } from 'lodash';
 
 export default class Settings {
     constructor(game, EventHandler, defaultTabButton) {
@@ -130,15 +131,6 @@ export default class Settings {
             });
             return sameKey;
         }
-        function addError(input, error) {
-            const errorTextElement = input.parentElement.getElementsByClassName('hotkeyError')[0];
-            const errorTextElements = [...document.getElementsByClassName('hotkeyError')];
-            errorTextElements.forEach(elem => elem.innerText = '');
-            errorTextElement.innerText = error;
-            setTimeout(() => {
-                errorTextElement.innerText = '';
-            }, 2000);
-        }
 
         inputs.forEach(input => {
             input.oncontextmenu = (e) => e.preventDefault();
@@ -150,7 +142,8 @@ export default class Settings {
                     input.blur();
                     this.onHotkeyChange(input);
                 } else {
-                    addError(input, 'This key is already taken');
+                    showNotif('This key is already taken', 1000);
+                    input.blur();
                 }
             }
             
@@ -165,7 +158,8 @@ export default class Settings {
                     input.blur();
                     this.onHotkeyChange(input);
                 } else {
-                    addError(input, 'This key is already taken');
+                    showNotif('This key is already taken', 1000);
+                    input.blur();
                 }
             }
         });

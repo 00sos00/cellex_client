@@ -36,6 +36,7 @@
 
 <script>
 import { getCurrentInstance, ref } from 'vue';
+import { showNotif } from '../assets/Functions/showNotif';
 
 export default {
   name: 'Auth',
@@ -69,6 +70,7 @@ export default {
       clearForms();
       clearErrors();
       EventHandler.emit('loggedIn');
+      showNotif('You Just Logged In !', 2000);
     }
 
     const register = (e) => {

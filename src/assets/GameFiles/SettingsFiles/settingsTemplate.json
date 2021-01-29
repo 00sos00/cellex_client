@@ -18,20 +18,20 @@
             "defaultValue": "ALL",
             "possibleValues": ["ALL", "TAG", "HIDE SELF", "SELF", "OFF"]
         },
-        "Mass Type": {
-            "name": "Mass Type",
+        "MassType": {
+            "name": "MassType",
             "value": "SHORT",
             "defaultValue": "SHORT",
             "possibleValues": ["SHORT", "FULL"]
         },
-        "Auto Zoom": {
-            "name": "Auto Zoom",
+        "AutoZoom": {
+            "name": "AutoZoom",
             "value": "OFF",
             "defaultValue": "OFF",
             "possibleValues": ["ON", "OFF"]
         },
-        "No Lag": {
-            "name": "No Lag",
+        "NoLag": {
+            "name": "NoLag",
             "value": "OFF",
             "defaultValue": "OFF",
             "possibleValues": ["ON", "OFF"]
@@ -60,46 +60,46 @@
             "defaultValue": "SHOWN",
             "possibleValues": ["SHOWN", "HIDDEN"]
         },
-        "Pellets": {
-            "name": "Pellets",
+        "Food": {
+            "name": "Food",
             "value": "SHOWN",
             "defaultValue": "SHOWN",
             "possibleValues": ["SHOWN", "HIDDEN"]
         },
-        "Rainbow Pellets": {
-            "name": "Rainbow Pellets",
+        "RainbowFood": {
+            "name": "RainbowFood",
             "value": "ON",
             "defaultValue": "ON",
             "possibleValues": ["ON", "OFF"]
         }
     },
     "ranges": {
-        "Animation Delay": {
-            "name": "Animation Delay",
+        "AnimationDelay": {
+            "name": "AnimationDelay",
             "value": 100,
             "defaultValue": 100,
             "minValue": 50,
             "maxValue": 200,
             "step": 5
         },
-        "Camera Speed": {
-            "name": "Camera Speed",
+        "CameraSpeed": {
+            "name": "CameraSpeed",
             "value": 0.25,
             "defaultValue": 0.25,
             "minValue": 0.25,
             "maxValue": 1,
             "step": 0.05
         },
-        "Zoom Speed": {
-            "name": "Zoom Speed",
+        "ZoomSpeed": {
+            "name": "ZoomSpeed",
             "value": 1.2,
             "defaultValue": 1.2,
             "minValue": 1.1,
             "maxValue": 1.5,
             "step": 0.1
         },
-        "Border Width": {
-            "name": "Border Width",
+        "BorderWidth": {
+            "name": "BorderWidth",
             "value": 0.5,
             "defaultValue": 0.5,
             "minValue": 0.25,
@@ -150,10 +150,30 @@
             "value": "FFFFFF",
             "defaultValue": "FFFFFF"
         },
-        "Pellets": {
-            "name": "Pellets",
+        "Food": {
+            "name": "Food",
             "value": "4480d4",
             "defaultValue": "4480d4"
+        },
+        "Virus": {
+            "name": "Virus",
+            "value": "33FF33",
+            "defaultValue": "33FF33"
+        },
+        "MotherCell": {
+            "name": "MotherCell",
+            "value": "CE6363",
+            "defaultValue": "CE6363"
+        },
+        "NoLagCells": {
+            "name": "NoLagCells",
+            "value": "ff071e",
+            "defaultValue": "ff071e"
+        },
+        "NoLagCellsOwn": {
+            "name": "NoLagCellsOwn",
+            "value": "2596be",
+            "defaultValue": "2596be"
         }
     }
 }

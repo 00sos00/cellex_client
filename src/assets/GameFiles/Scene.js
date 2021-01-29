@@ -44,7 +44,7 @@ export default class Scene {
 
     drawBorder() {
         const border = this.game.border;
-        const borderWidth = this.game.settings.template.ranges["Border Width"].value;
+        const borderWidth = this.game.settings.template.ranges["BorderWidth"].value;
         const borderColor = this.game.settings.template.colors["Border"].value;
         const showBorder =  this.game.settings.template.options["Border"].value == "SHOWN";
 
@@ -162,10 +162,10 @@ export default class Scene {
         let camera = this.game.camera;
         let cameraX = 0;
         let cameraY = 0;
-        let cameraSpeed = this.game.settings.template.ranges["Camera Speed"].value;
-        let autoZoom = this.game.settings.template.options["Auto Zoom"].value == "ON";
+        let cameraSpeed = this.game.settings.template.ranges["CameraSpeed"].value;
+        let autoZoom = this.game.settings.template.options["AutoZoom"].value == "ON";
         let ownPlayer = this.game.playerManager.getOwnPlayer();
-        if (this.game.ownedCells.size) {
+        if (ownPlayer && ownPlayer.PLAY && this.game.ownedCells.size) {
             let x = 0;
             let y = 0;
             this.game.ownedCells.forEach(cell => {
@@ -176,13 +176,17 @@ export default class Scene {
             cameraY = y / this.game.ownedCells.size;
             camera.x = this.lerp(camera.x, cameraX, cameraSpeed);
             camera.y = this.lerp(camera.y, cameraY, cameraSpeed);
-            if (autoZoom && ownPlayer) camera.zoom = Math.pow(ownPlayer.size / ownPlayer.cellsAmount / ownPlayer.size * 500, .11) / 25;
+            if (autoZoom) camera.zoom = Math.pow(ownPlayer.size / ownPlayer.cellsAmount / ownPlayer.size * 500, .11) / 25;
+            camera.scale = this.lerp(camera.scale, camera.zoom, 0.2);
+        } else if (ownPlayer && ownPlayer.SPEC) {
+            camera.x = this.lerp(camera.x, camera.spectateX, 0.1);
+            camera.y = this.lerp(camera.y, camera.spectateY, 0.1);
             camera.scale = this.lerp(camera.scale, camera.zoom, 0.2);
         } else {
-            camera.x = this.lerp(camera.x, camera.spectateX, cameraSpeed);
-            camera.y = this.lerp(camera.y, camera.spectateY, cameraSpeed);
-            camera.scale = this.lerp(camera.scale, camera.zoom, 0.2);
-        } 
+            camera.x = this.lerp(camera.x, this.game.border.centerX, 0.1);
+            camera.y = this.lerp(camera.y, this.game.border.centerY, 0.1);
+            camera.zoom = 0.1;
+        }
         this.stage.pivot.set(camera.x, camera.y);
         this.stage.scale.set(camera.scale);
         this.stage.position.set(this.view.width / 2, this.view.height / 2);
@@ -191,7 +195,7 @@ export default class Scene {
     updateCameraScale(e) {
         if (window.canZoom) {
             let camera = this.game.camera;
-            let zoomSpeed = this.game.settings.template.ranges["Zoom Speed"].value;
+            let zoomSpeed = this.game.settings.template.ranges["ZoomSpeed"].value;
             camera.zoom = e.deltaY > 0 ? camera.zoom / zoomSpeed : camera.zoom * zoomSpeed;
             camera.zoom = Math.max(Math.min(camera.zoom, 0.4), 0.03);
         }
@@ -246,7 +250,7 @@ export default class Scene {
                 window.onwheel = this.updateCameraScale.bind(this);
                 window.onmousemove = this.onMouseMove.bind(this);
                 mainScene.appendChild(this.app.view);
-                this.game.socket.connect('localhost:4444');
+                this.game.socket.connect('antha.run-eu-central1.goorm.io');
             });
         });
     }

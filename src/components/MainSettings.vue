@@ -37,7 +37,6 @@
           <div class="settingsTab" id="Hotkeys">
               <div v-for="hotkey in hotkeys" :key="hotkey" class="settingsHotkey">
                   <p class="settingsHotkeyName">{{ hotkey.name }}</p>
-                  <p class="hotkeyError"></p>
                   <input type="text" class="settingsHotkeyInput" :data-hotkeyName="hotkey.name" spellcheck="false" maxlength="1">
               </div>
               <button class="settingsResetBtn" @click="resetHotkeys">Reset</button>
@@ -366,20 +365,6 @@ export default {
 .settingsHotkeyInput:focus {
     background-color: #242631;
     cursor: default;
-}
-.hotkeyError {
-    position: absolute;
-    left: 45%;
-    transform: translateX(-50%);
-    
-
-    color: red;
-    font-size: 16px;
-    font-family: 'Quicksand';
-    text-align: left;
-    line-height: 50px;
-
-    margin: 0;
 }
 
 

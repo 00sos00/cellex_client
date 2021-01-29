@@ -4,6 +4,7 @@
   <MainSettings :game="game"/>
   <SkinChanger :game="game"/>
   <MainScene :game="game"/>
+  <div id="notif">Hey you need to be logged in!</div>
   <div id="overlay"></div>
   <div id="background" class="main"></div>
 </template>
@@ -94,6 +95,28 @@ body {
   margin: 0;
   overflow: hidden;
   background-color: black;
+}
+#notif {
+  width: auto;
+  height: 50px;
+  
+  color: white;
+  font-size: 16px;
+  font-family: 'Quicksand';
+  background-color: rgb(25, 28, 34);
+
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  line-height: 50px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 5px;
+  transition: opacity 0.1s;
+  opacity: 0;
+  z-index: 100;
 }
 #background {
   position: absolute;
