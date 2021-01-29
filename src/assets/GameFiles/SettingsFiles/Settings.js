@@ -51,6 +51,7 @@ export default class Settings {
         input.value = color;
         colorToChange.value = input.value;
         localStorage.setItem('settings', JSON.stringify(this.template));
+        this.game.scene.updateBackgroundColor();
     }
 
     switchTab(e) {

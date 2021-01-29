@@ -23,6 +23,9 @@ export default class Scene {
                 cell.updateVisiblity();
             });
         }, 200);
+        setInterval(() => {
+            this.sendMousePosition();
+        }, 40);
     }
     
     lerp (start, end, amount) {
@@ -38,8 +41,6 @@ export default class Scene {
         this.updateMinimap();
         this.game.gameCells.forEach(cell => cell.update());
         this.updateCamera();
-        this.sendMousePosition();
-        this.updateBackgroundColor();
     }
 
     drawBorder() {
@@ -207,6 +208,7 @@ export default class Scene {
     }
 
     sendMousePosition() {
+        if (!this.view) return;
         let mouse = this.game.mouse;
         let camera = this.game.camera;
         let mouseX = (mouse.x - this.view.width / 2) / camera.scale + camera.x;
@@ -233,13 +235,12 @@ export default class Scene {
 
             font.load().then(() => {
                 PIXI.BitmapFont.from("Mass", {
-                    fontFamily: "Quicksand",
+                    fontFamily: "Nunito",
                     fontSize: 45,
                     strokeThickness: 6,
                     fill: 0xffffff
                 }, {
-                    chars: PIXI.BitmapFont.ASCII,
-                    resolution: 2
+                    chars: PIXI.BitmapFont.ASCII
                 });
                 this.renderer = this.app.renderer;
                 this.ticker = this.app.ticker;

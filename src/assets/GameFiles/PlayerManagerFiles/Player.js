@@ -64,7 +64,7 @@ export default class Player {
     cacheNameText(name) {
         let renderTexture = PIXI.RenderTexture.create(612, 200);
         let text = new PIXI.Text(name || this.name, {
-            fontFamily: "Quicksand",
+            fontFamily: "Nunito",
             fontSize: 80,
             stroke: true,
             strokeThickness: 7,
