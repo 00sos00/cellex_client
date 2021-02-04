@@ -1,22 +1,29 @@
 <template>
-  <Auth v-if="!loggedIn" :game="game"/>
-  <MainPlay v-if="loggedIn" :game="game"/>
+  <Auth v-if="!loggedIn && !loading" :game="game"/>
+  <MainPlay v-if="loggedIn  && !loading" :game="game"/>
   <MainSettings :game="game"/>
+  <Servers :game="game"/>
+  <FeaturedVideo />
   <SkinChanger :game="game"/>
   <MainScene :game="game"/>
-  <div id="notif">Hey you need to be logged in!</div>
+  <div id="notif"></div>
   <div id="overlay"></div>
+  <div id="loadingScreen" v-if="loading">
+    <div class="loadingScreenText">Loading...</div>
+  </div>
   <div id="background" class="main"></div>
 </template>
 
 <script>
 import { getCurrentInstance, ref } from 'vue';
 import { getPopupFunctions } from './assets/Functions/getPopupFunctions';
-import MainPlay from './components/MainPlay.vue';
-import SkinChanger from './components/SkinChanger.vue';
-import MainSettings from './components/MainSettings.vue';
-import MainScene from './components/MainScene.vue';
+import MainPlay from './components/MainPlay';
+import SkinChanger from './components/SkinChanger';
+import MainSettings from './components/MainSettings';
+import MainScene from './components/MainScene';
+import Servers from './components/Servers';
 import Auth from './components/Auth';
+import FeaturedVideo from './components/FeaturedVideo';
 import Game from './assets/GameFiles/Game';
 
 export default {
@@ -26,19 +33,24 @@ export default {
     MainSettings,
     SkinChanger,
     MainScene,
+    Servers,
     Auth,
+    FeaturedVideo
   },
   setup() {
     const self = getCurrentInstance();
     const EventHandler = self.appContext.config.globalProperties.EventHandler;
     const { popupShow, popupHide } = getPopupFunctions();
-    const loggedIn = ref(false);
-    const game = new Game();
+    const loggedIn = ref(true);
+    const loading = ref(false);
+    const game = new Game(EventHandler);
 
     EventHandler.on('loggedIn', () => {
       loggedIn.value = true;
+      loading.value = false;
     });
     EventHandler.on('loggedOut', () => loggedIn.value = false);
+
 
     EventHandler.on('openSkinChanger', () => {
       popupShow('skinChanger', 250);
@@ -51,13 +63,30 @@ export default {
     EventHandler.on('openSettings', () => {
       popupShow('mainSettings', 250);
       game.settings.updateSettings();
-      game.settings.defaultTabButton.value.click();
+      game.settings.defaultTabBtn.value.click();
     });
     EventHandler.on('closeSettings', () => {
       popupHide('mainSettings', 250);
     });
 
-    return { game, loggedIn }
+
+    EventHandler.on('openServers', () => {
+      popupShow('mainServers', 250);
+      game.servers.onOpen();
+    });
+    EventHandler.on('closeServers', () => {
+      popupHide('mainServers', 250); 
+    });
+
+
+    EventHandler.on('openFeaturedVideo', () => {
+      popupShow('featuredVideo', 250);
+    });
+    EventHandler.on('closeFeaturedVideo', () => {
+      popupHide('featuredVideo', 250); 
+    });
+
+    return { game, loggedIn, loading }
   }
 }
 </script>
@@ -84,6 +113,17 @@ export default {
   100% {
     transform: scale(1.05);
   }
+}
+@keyframes loading {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
 body {
@@ -117,6 +157,29 @@ body {
   transition: opacity 0.1s;
   opacity: 0;
   z-index: 100;
+}
+#loadingScreen {
+  width: 100%;
+  height: 100%;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+  background-color: #232732;
+}
+.loadingScreenText {
+    color: white;
+    font-size: 30px;
+    font-family: 'Quicksand';
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    animation: loading 1s infinite;
 }
 #background {
   position: absolute;

@@ -101,7 +101,7 @@ export default {
   width: auto;
   height: 40px;
   max-zoom: 200;
-  background-color: #0056cf1a;
+  background-color: rgb(18, 20, 24);
 
   position: absolute;
   left: 0px;
@@ -136,7 +136,7 @@ export default {
   max-width: 200px;
   max-height: 300px;
 
-  background-color: #0056cf1a;
+  background-color: rgb(18, 20, 24);
 
   position: absolute;
   right: 0px;
@@ -146,7 +146,7 @@ export default {
   z-index: 1;
 }
 .leaderboardTitle {
-  color: #4480d4;
+  color: white;
   font-size: 20px;
   font-family: 'Quicksand';
   text-align: center;
@@ -174,7 +174,7 @@ export default {
   width: 430px;
   height: 240px;
 
-  background-color: #0056cf1a;
+  background-color: rgb(18, 20, 24);
 
   position: absolute;
   bottom: 0px;
@@ -260,7 +260,7 @@ export default {
   width: 200px;
   height: 200px;
 
-  background-color: #0056cf1a;
+  background-color: rgb(18, 20, 24);
 
   position: absolute;
   bottom: 0px;

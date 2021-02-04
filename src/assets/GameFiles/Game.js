@@ -3,12 +3,15 @@
 import Socket from './SocketFiles/Socket';
 import HotkeysHandler from './HotkeysHandler';
 import PlayerManager from './PlayerManagerFiles/PlayerManager';
+import ProfileHandler from './ProfileHandler';
 
 export default class Game {
-    constructor() {
+    constructor(EventHandler) {
+        this.EventHandler = EventHandler;
         this.socket = new Socket(this);
         this.hotkeysHandler = new HotkeysHandler(this);
         this.playerManager = new PlayerManager(this);
+        this.profileHandler = new ProfileHandler(this);
         this.Ping = 0;
         this.FPS = 0;
         this.mouse = {

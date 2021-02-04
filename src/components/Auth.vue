@@ -36,7 +36,6 @@
 
 <script>
 import { getCurrentInstance, ref } from 'vue';
-import { showNotif } from '../assets/Functions/showNotif';
 
 export default {
   name: 'Auth',
@@ -69,14 +68,14 @@ export default {
       e.preventDefault();
       clearForms();
       clearErrors();
-      EventHandler.emit('loggedIn');
-      showNotif('You Just Logged In !', 2000);
+      game.profileHandler.login(loginUsername, loginPassword);
     }
 
     const register = (e) => {
       e.preventDefault();
       clearForms();
       clearErrors();
+      game.profileHandler.register(registerUsername, registerEmail, registerPassword);
     }
 
 

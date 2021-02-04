@@ -11,7 +11,7 @@ export default class Cell {
         this.ny = y;
         this.ns = s;
         this.color = color;
-        this.type = flags.isPlayer ? 'Player' : flags.isVirus ? 'Virus' : flags.isFood ? 'Food' : flags.isEjected ? 'Ejected' : flags.isMotherCell ? 'MotherCell' : 'Unknown';
+        this.type = flags.isPlayer ? 'Player' : flags.isVirus ? 'Virus' : flags.isFood ? 'Food' : flags.isEjected ? 'Ejected' : flags.isMotherCell ? 'MotherCell' : flags.isGhostCell ? 'GhostCell' : 'Unknown';
         this.game = game;
         this.owner = this.game.playerManager.getPlayerById(this.pID);
         this.isMine = this.owner && this.owner.isMe;
@@ -147,6 +147,8 @@ export default class Cell {
                     /* <=== No Lag ===> */
                     if (NoLag && this.sprite)
                         this.sprite.tint = `0x${this.isMine ? NoLagCellsOwnColor : NoLagCellsColor}`;
+                    else if (this.sprite)
+                        this.sprite.tint = `0x${this.color.toHEX()}`;
                 }
 
                 break;
@@ -171,6 +173,18 @@ export default class Cell {
             case 'MotherCell': {
                 if (this.sprite)
                     this.sprite.tint = `0x${MotherCellColor}`;
+                break;
+            }
+            case 'GhostCell': {
+                if (this.skinSprite)
+                    this.skinSprite.visible = false;
+                if (this.nameSprite)
+                    this.nameSprite.visible = false;
+                if (this.massText)
+                    this.massText.visible = false;
+                if (this.sprite)
+                    this.sprite.tint = '0x202020';
+                    this.sprite.alpha = 0.5;
                 break;
             }
         }

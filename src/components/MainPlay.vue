@@ -3,8 +3,9 @@
   <div id="mainNav" class="main">
     <button class="navBtn">Shop</button>
     <button class="navBtn">Profile</button>
-    <button class="navBtn">Servers</button>
+    <button class="navBtn" @click="openServers">Servers</button>
     <button class="navBtn">Skins</button>
+    <button class="navBtn" @click="openFeaturedVideo">Featured Video</button>
   </div>
   <div id="mainPlay" class="main">
     
@@ -67,9 +68,19 @@ export default {
       EventHandler.emit('openSettings');
     }
 
+    const openServers = () => {
+      EventHandler.emit('openServers');
+    }
+
+    const openFeaturedVideo = () => {
+      EventHandler.emit('openFeaturedVideo');
+    }
+
     return { 
       openSkinChanger, 
       openSettings, 
+      openServers,
+      openFeaturedVideo,
       onNameChange, 
       onTagChange,
       joinGame,
@@ -83,13 +94,15 @@ export default {
 <style scoped>
 #mainPlay {
   position: absolute;
-  top: 50px;
+  top: 80px;
   right: 0;
   bottom: 0;
   left: 0;
   margin: 0 auto;
+
   width: 400px;
   height: 350px;
+  
   z-index: -1;
 }
 
@@ -120,6 +133,7 @@ export default {
   font-size: 20px;
   font-family: 'Quicksand';
 
+  white-space: nowrap;
   margin-right: 10px;
   border-radius: 5px;
   border: none;

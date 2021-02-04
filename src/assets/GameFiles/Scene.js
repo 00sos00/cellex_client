@@ -177,7 +177,11 @@ export default class Scene {
             cameraY = y / this.game.ownedCells.size;
             camera.x = this.lerp(camera.x, cameraX, cameraSpeed);
             camera.y = this.lerp(camera.y, cameraY, cameraSpeed);
-            if (autoZoom) camera.zoom = Math.pow(ownPlayer.size / ownPlayer.cellsAmount / ownPlayer.size * 500, .11) / 25;
+            if (autoZoom) {
+                let newZoom = Math.pow(ownPlayer.size, .11) / 25;
+                    newZoom = Math.pow(newZoom / (ownPlayer.size * newZoom), .11) / 5;
+                camera.zoom = newZoom;
+            }
             camera.scale = this.lerp(camera.scale, camera.zoom, 0.2);
         } else if (ownPlayer && ownPlayer.SPEC) {
             camera.x = this.lerp(camera.x, camera.spectateX, 0.1);
@@ -251,7 +255,6 @@ export default class Scene {
                 window.onwheel = this.updateCameraScale.bind(this);
                 window.onmousemove = this.onMouseMove.bind(this);
                 mainScene.appendChild(this.app.view);
-                this.game.socket.connect('antha.run-eu-central1.goorm.io');
             });
         });
     }

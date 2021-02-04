@@ -1,0 +1,122 @@
+{
+    "Europe": {
+        "Ultrasplit": {
+            "name": "Ultrasplit",
+            "servers": [
+                {
+                    "name": "1",
+                    "origin": "localhost",
+                    "port": 4444,
+                    "isFull": true
+                },
+                {
+                    "name": "2",
+                    "origin": "localhost",
+                    "port": 4444,
+                    "isFull": true
+                },
+                {
+                    "name": "3",
+                    "origin": "localhost",
+                    "port": 4444,
+                    "isFull": false
+                },
+                {
+                    "name": "4",
+                    "origin": "localhost",
+                    "port": 4444,
+                    "isFull": false
+                }
+            ]
+        },
+        "Megasplit": {
+            "name": "Megasplit",
+            "servers": [
+                {
+                    "name": "1",
+                    "origin": "localhost",
+                    "port": 4444,
+                    "isFull": false
+                },
+                {
+                    "name": "2",
+                    "origin": "localhost",
+                    "port": 4444,
+                    "isFull": false
+                },
+                {
+                    "name": "3",
+                    "origin": "localhost",
+                    "port": 4444,
+                    "isFull": false
+                },
+                {
+                    "name": "4",
+                    "origin": "localhost",
+                    "port": 4444,
+                    "isFull": false
+                }
+            ]
+        }
+    },
+    "North America": {
+        "Ultrasplit": {
+            "name": "Ultrasplit",
+            "servers": [
+                {
+                    "name": "1",
+                    "origin": "localhost",
+                    "port": 3333,
+                    "isFull": true
+                },
+                {
+                    "name": "2",
+                    "origin": "localhost",
+                    "port": 3333,
+                    "isFull": true
+                },
+                {
+                    "name": "3",
+                    "origin": "localhost",
+                    "port": 3333,
+                    "isFull": false
+                },
+                {
+                    "name": "4",
+                    "origin": "localhost",
+                    "port": 3333,
+                    "isFull": false
+                }
+            ]
+        },
+        "Megasplit": {
+            "name": "Megasplit",
+            "servers": [
+                {
+                    "name": "1",
+                    "origin": "localhost",
+                    "port": 3333,
+                    "isFull": false
+                },
+                {
+                    "name": "2",
+                    "origin": "localhost",
+                    "port": 3333,
+                    "isFull": false
+                },
+                {
+                    "name": "3",
+                    "origin": "localhost",
+                    "port": 3333,
+                    "isFull": true
+                },
+                {
+                    "name": "4",
+                    "origin": "localhost",
+                    "port": 3333,
+                    "isFull": true
+                }
+            ]
+        }
+    }
+}

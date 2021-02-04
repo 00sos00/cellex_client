@@ -5,11 +5,11 @@ import { showNotif } from '../../Functions/showNotif';
 import { merge } from 'lodash';
 
 export default class Settings {
-    constructor(game, EventHandler, defaultTabButton) {
+    constructor(game, EventHandler, defaultTabBtn) {
         this.game = game;
         this.game.settings = this;
         this.EventHandler = EventHandler;
-        this.defaultTabButton = defaultTabButton;
+        this.defaultTabBtn = defaultTabBtn;
         this.template = settingsTemplate;
     }
 

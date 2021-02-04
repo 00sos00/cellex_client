@@ -141,7 +141,8 @@ export default class PacketHandler {
                 isFood: !!(cellFMask & 2),
                 isVirus:  !!(cellFMask & 4),
                 isEjected:    !!(cellFMask & 8),
-                isMotherCell: !!(cellFMask & 16)
+                isMotherCell: !!(cellFMask & 16),
+                isGhostCell: !!(cellFMask & 32)
             }
             let cellColor = new Color('rgb', {
                 r: reader.getUint8(),

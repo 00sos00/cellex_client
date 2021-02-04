@@ -242,8 +242,6 @@ export default {
     right: 10px;
     transform: translateY(-50%);
 
-    /* background-color: #15171E; */
-
     padding-left: 5px;
     padding-right: 5px;
     border-radius: 5px;

@@ -1,18 +1,22 @@
 import PacketHandler from './PacketHandler';
+//import APIHandler from './apiHandler';
 import Writer from './Writer';
+import { showNotif } from '../../Functions/showNotif';
 
 export default class Socket {
     constructor(game) {
         this.game = game;
         this.wsConnection = null;
         this.packetHandler = new PacketHandler(this);
+        //this.apiHandler = new APIHandler(this);
+        this.currentGamemode = '';
     }
 
     isConnectionOpen() {
         return this.wsConnection && this.wsConnection.readyState === 1;
     }
 
-    connect(ip) {
+    connect(ip, gamemode) {
         // Check whether to use ws or wss
         ip = `ws${window.location.protocol === 'https:' ? 's' : ''}://${ip}`;
 
@@ -26,6 +30,7 @@ export default class Socket {
             this.wsConnection.onopen = this.onOpen.bind(this);
             this.wsConnection.onclose = this.onClose.bind(this);
             this.wsConnection.onmessage = this.onMessage.bind(this);
+            this.currentGamemode = gamemode
         }
     }
 
@@ -53,13 +58,13 @@ export default class Socket {
     }
 
     onOpen() {
-        console.log('Socket opened')
+        showNotif('Connected to ' + this.currentGamemode, 1000);
         this.game.scene.app.ticker.start();
         this.startPingLoop();
     }
 
     onClose() {
-        console.log('Socket closed')
+        showNotif('Disconnected from ' + this.currentGamemode, 1000);
         this.game.resetEverything();
         this.game.showMain();
         this.stopPingLoop();
