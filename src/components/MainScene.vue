@@ -21,7 +21,7 @@
       </div>
       <div id="mainChat" @mouseover="chatMouseOver" @mouseout="chatMouseOut">
         <div id="messages"></div>
-        <input @focus="onChatFocus" @blur="onChatBlur" type="text" id="chatInput" maxlength="256" spellcheck="false" placeholder="Press enter to chat" autocomplete="off">
+        <input @focus="onChatFocus" @blur="onChatBlur" type="text" id="chatInput" maxlength="256" spellcheck="false" placeholder="Message Here..." autocomplete="off">
       </div>
       <div id="mainMinimap">
         <canvas id="minimapCanvas"></canvas>
@@ -101,16 +101,16 @@ export default {
   width: auto;
   height: 40px;
   max-zoom: 200;
-  background-color: rgb(18, 20, 24);
+  background-color: rgba(10, 10, 10, 0.4);
 
   position: absolute;
-  left: 0px;
-  top: 0px;
+  left: 5px;
+  top: 5px;
 
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  border-bottom-right-radius: 5px;
+  border-radius: 5px;
   z-index: 1;
 }
 .stat {
@@ -136,13 +136,13 @@ export default {
   max-width: 200px;
   max-height: 300px;
 
-  background-color: rgb(18, 20, 24);
+  background-color: rgba(10, 10, 10, 0.4);
 
   position: absolute;
-  right: 0px;
-  top: 0px;
+  right: 5px;
+  top: 5px;
 
-  border-bottom-left-radius: 5px;
+  border-radius: 5px;
   z-index: 1;
 }
 .leaderboardTitle {
@@ -158,8 +158,11 @@ export default {
   font-size: 16px;
   font-family: 'Arial';
 
+  white-space: nowrap;
   text-align: center;
   margin-bottom: 5px;
+  margin-left: 10px;
+  display: flex;
 }
 .lbRow.isMe {
   color: #4480d4;
@@ -171,21 +174,22 @@ export default {
 
 
 #mainChat {
-  width: 430px;
+  width: 480px;
   height: 240px;
 
-  background-color: rgb(18, 20, 24);
+  background-color: rgba(10, 10, 10, 0.4);
 
   position: absolute;
-  bottom: 0px;
-  left: 0px;
+  bottom: 5px;
+  left: 5px;
 
-  border-top-right-radius: 5px;
+  border-radius: 5px;
+  overflow: hidden;
   z-index: 1;
   user-select: auto !important;
 }
 #messages {
-  width: 100%;
+  width: 480px;
   height: 90%;
 
   overflow-y: auto;
@@ -195,17 +199,17 @@ export default {
 #messages::-webkit-scrollbar {
     width: 5px;
 
-    background-color: #1013187e;
+    background-color: transparent;
 
     border-radius: 5px;
 }
 #messages::-webkit-scrollbar-thumb {
-    background-color: #242b36;
+    background-color: #8f8f8f;
 
-    border-radius: 5px;
+    border-radius: 10px;
 }
 .message {
-  width: 100%;
+  width: 96%;
   height: auto;
 
   color: white;
@@ -213,10 +217,9 @@ export default {
   font-family: 'Arial';
 
   margin: 0;
-  margin-bottom: 5px;
-  text-indent: 12px;
+  margin-bottom: 0.5rem;
+  padding-left: 10px;
   float: left;
-  word-break: break-all;
 }
 .messageName {
   color: #4480d4;
@@ -227,7 +230,11 @@ export default {
   color: white;
   font-size: 16px;
   font-family: 'Arial';
+
   padding-left: 2px;
+  margin: 0;
+  user-select: text;
+  -webkit-user-select: text;
 }
 #chatInput {
   width: 100%;
@@ -236,7 +243,7 @@ export default {
   color: white;
   font-size: 16px;
   font-family: 'Arial';
-  background-color: #252933b2;
+  background-color: transparent;
 
   border: none;
   outline: none;
@@ -245,7 +252,7 @@ export default {
   text-indent: 5px;
 }
 #chatInput::placeholder {
-  color: #424857;
+  color: #ffffff96;
   font-size: 16px;
   text-align: left;
 }
@@ -260,13 +267,13 @@ export default {
   width: 200px;
   height: 200px;
 
-  background-color: rgb(18, 20, 24);
+  background-color: rgba(10, 10, 10, 0.4);
 
   position: absolute;
-  bottom: 0px;
-  right: 0px;
+  bottom: 5px;
+  right: 5px;
 
-  border-top-left-radius: 5px;
+  border-radius: 5px;
   z-index: 1;
 }
 #minimapCanvas {

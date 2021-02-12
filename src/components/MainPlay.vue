@@ -1,14 +1,14 @@
 <template>
-  <!-- Nav buttons -->
-  <div id="mainNav" class="main">
-    <button class="navBtn">Shop</button>
-    <button class="navBtn">Profile</button>
-    <button class="navBtn" @click="openServers">Servers</button>
-    <button class="navBtn">Skins</button>
-    <button class="navBtn" @click="openFeaturedVideo">Featured Video</button>
-  </div>
-  <div id="mainPlay" class="main">
-    
+  <div id="mainPlay">
+    <!-- Nav buttons -->
+    <div id="mainNav">
+      <button class="navBtn">Shop</button>
+      <button class="navBtn">Profile</button>
+      <button class="navBtn" @click="openServers">Servers</button>
+      <button class="navBtn">Skins</button>
+      <button class="navBtn" @click="openFeaturedVideo">Featured Video</button>
+    </div>
+
     <!-- The xp circle -->
     <svg width="172.5" height="172.5" id="xpCircleHolder">
       <circle r="71.25" cx="86.25" cy="86.25" id="xpCircleBar"></circle>
@@ -42,6 +42,8 @@ export default {
     const self = getCurrentInstance();
     const EventHandler = self.appContext.config.globalProperties.EventHandler;
     const game = self.props.game;
+    const videoEmbedCode = 'CmKa4QAUNTA';
+    const videoEmbedLink = `https://www.youtube.com/embed/${videoEmbedCode}`;
     onMounted(() => {
       document.getElementById('nick').value = localStorage.getItem('name');
       document.getElementById('tag').value = localStorage.getItem('tag');
@@ -84,7 +86,8 @@ export default {
       onNameChange, 
       onTagChange,
       joinGame,
-      spectate 
+      spectate,
+      videoEmbedLink 
     }
   }
 }
@@ -106,19 +109,28 @@ export default {
   z-index: -1;
 }
 
+#video {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
 
+    width: 365px;
+    height: 300px;
+
+    box-sizing: border-box;
+    /* border: 2px #4a5cd4 solid; */
+    border-radius: 10px;
+    display: none;
+}
 
 #mainNav {
   height: 30px;
 
-  position: absolute;
+  position: fixed;
   top: 0px;
   left: 0px;
 
-  /* background-color: #1b1e2791;
-
-  border-bottom: 2px #1b1e27 solid;
-  border-right: 2px #1b1e27 solid; */
   display: flex;
   padding: 5px;
   z-index: -1;

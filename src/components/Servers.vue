@@ -15,7 +15,7 @@
             <div v-for="gm in europeGamemodes" :key="gm" class="serversGamemode">
                 <p class="serversGamemodeName">{{ gm.name }}</p>
                 <div class="gamemodeServers">
-                    <button @click="connect" v-for="server in gm.servers" :key="server" class="gamemodeServer" :data-server="JSON.stringify(server)" :data-gamemode="gm.name" :disabled="server.isFull">{{ server.name }}</button>
+                    <button @click="connect" v-for="server in gm.servers" :key="server" class="gamemodeServer" :data-server="JSON.stringify(server)" :data-gamemode="gm.name" :data-isfull="server.isFull" >{{ server.name }}</button>
                 </div>
             </div>
         </div>
@@ -87,8 +87,6 @@ export default {
 
     border-radius: 15px;
 
-    pointer-events: none;
-    opacity: 0;
     overflow: hidden;
 }
 

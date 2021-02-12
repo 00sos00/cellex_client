@@ -33,15 +33,17 @@ export default class Servers {
     }
 
     connect(e) {
+        if (e.target.dataset.isfull == "true")
+            return this.game.showNotif('Server Full', 1000);
         const server = JSON.parse(e.target.dataset.server);
         const serverGamemode = e.target.dataset.gamemode;
         const serverOrigin = server.origin;
         const serverPort = server.port;
-
+        
         [...document.getElementsByClassName('gamemodeServer')].forEach(server => {
             server.classList.remove('selectedServer');
         });
-        e.target.classList.add('selectedServer')
+        e.target.classList.add('selectedServer');
 
         this.game.socket.connect(`${serverOrigin}:${serverPort}`, serverGamemode);
     }

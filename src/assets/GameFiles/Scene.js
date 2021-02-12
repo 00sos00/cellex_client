@@ -1,5 +1,6 @@
 import * as PIXI from 'pixi.js-legacy';
 import FontFaceObserver from 'fontfaceobserver';
+PIXI.utils.skipHello();
 
 export default class Scene {
     constructor(game, mainScene) {
@@ -9,7 +10,6 @@ export default class Scene {
             resolution: 1,
             backgroundColor: 0x101010,
             antialias: true,
-            autoStart: false,
             forceCanvas: false,
             resizeTo: window
         });
@@ -20,7 +20,7 @@ export default class Scene {
         this.minimapCanvas.height = 200; 
         setInterval(() => {
             this.game.gameCells.forEach(cell => {
-                cell.updateVisiblity();
+                cell.type == 'Player' && cell.updateVisiblity();
             });
         }, 200);
         setInterval(() => {
@@ -124,8 +124,10 @@ export default class Scene {
         messages.forEach(msg => {
             msg.text = msg.text.replace(/(<([^>]+)>)/ig, "");
             html += `<span class="message">
-                        <span class="messageName">${msg.name}:</span>
-                        <span class="messageText">${msg.text}</span>
+                        <span class="messageName">
+                            ${msg.name}
+                            <span class="messageText">${msg.text}</span>
+                        </span>
                      </span>`;
         });
         messagesElement.innerHTML = html;

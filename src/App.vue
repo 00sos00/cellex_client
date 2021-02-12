@@ -1,29 +1,42 @@
 <template>
+  <!-- No Transitions -->
   <Auth v-if="!loggedIn && !loading" :game="game"/>
-  <MainPlay v-if="loggedIn  && !loading" :game="game"/>
-  <MainSettings :game="game"/>
-  <Servers :game="game"/>
-  <FeaturedVideo />
-  <SkinChanger :game="game"/>
-  <MainScene :game="game"/>
-  <div id="notif"></div>
-  <div id="overlay"></div>
+  <MainScene v-show="visibleElements.Scene" :game="game"/>
+
+  <!-- Fades -->
+  <transition-group tag="div" name="fade">
+    <MainPlay v-if="loggedIn && !loading && visibleElements.Main"  key="1" :game="game"/>
+    <DeathMenu v-show="visibleElements.DeathMenu"  key="1" :game="game"/>
+    <div id="notif" v-show="visibleElements.Notification" key="1"></div>
+    <div id="overlay" v-show="visibleElements.Overlay" key="1"></div>
+    <div id="background" v-show="visibleElements.Background" key="1" ></div>
+  </transition-group>
+
+
+  <!-- Popups -->
+  <transition-group tag="div" name="popup">
+    <MainSettings v-show="visibleElements.Settings" :game="game" key="1"/>
+    <Servers v-show="visibleElements.Servers" :game="game" key="1"/>
+    <SkinChanger v-show="visibleElements.SkinChanger" :game="game" key="1"/>
+  </transition-group>
+
+
+  <!-- Loading Screen -->
   <div id="loadingScreen" v-if="loading">
     <div class="loadingScreenText">Loading...</div>
   </div>
-  <div id="background" class="main"></div>
 </template>
 
 <script>
 import { getCurrentInstance, ref } from 'vue';
-import { getPopupFunctions } from './assets/Functions/getPopupFunctions';
 import MainPlay from './components/MainPlay';
 import SkinChanger from './components/SkinChanger';
 import MainSettings from './components/MainSettings';
 import MainScene from './components/MainScene';
 import Servers from './components/Servers';
 import Auth from './components/Auth';
-import FeaturedVideo from './components/FeaturedVideo';
+import DeathMenu from './components/DeathMenu';
+/* import FeaturedVideo from './components/FeaturedVideo'; */
 import Game from './assets/GameFiles/Game';
 
 export default {
@@ -35,58 +48,94 @@ export default {
     MainScene,
     Servers,
     Auth,
-    FeaturedVideo
+    DeathMenu
   },
   setup() {
     const self = getCurrentInstance();
     const EventHandler = self.appContext.config.globalProperties.EventHandler;
-    const { popupShow, popupHide } = getPopupFunctions();
-    const loggedIn = ref(true);
-    const loading = ref(false);
+    const on = EventHandler.on;
+    const loggedIn = ref(false);
+    const loading = ref(true);
     const game = new Game(EventHandler);
+    const visibleElements = ref({
+      Main: true,
+      DeathMenu: false,
+      Settings: false,
+      Servers: false,
+      SkinChanger: false,
+      Overlay: false,
+      Scene: false,
+      Background: true,
+      Notification: false
+    });
 
-    EventHandler.on('loggedIn', () => {
+    on('showNotif', () => visibleElements.value.Notification = true);
+    on('hideNotif', () => visibleElements.value.Notification = false);
+
+    on('loggedIn', () => {
       loggedIn.value = true;
       loading.value = false;
     });
-    EventHandler.on('loggedOut', () => loggedIn.value = false);
-
-
-    EventHandler.on('openSkinChanger', () => {
-      popupShow('skinChanger', 250);
-    });
-    EventHandler.on('closeSkinChanger', () => {
-      popupHide('skinChanger', 250);
+    on('loggedOut', () => {
+      loggedIn.value = false;
+      loading.value = false;
     });
 
+    on('showMain', () => {
+      visibleElements.value.Background = true;
+      visibleElements.value.Main = true;
+      visibleElements.value.Scene = false;
+    });
+    on('hideMain', () => {
+      visibleElements.value.Main = false;
+      visibleElements.value.Background = false;
+      visibleElements.value.Scene = true;
+    });
+    on('showDeathMenu', () => {
+      visibleElements.value.Background = true;
+      visibleElements.value.DeathMenu = true;
+    });
+    on('hideDeathMenu', () => {
+      visibleElements.value.DeathMenu = false;
+      visibleElements.value.Background = false;
+    });
 
-    EventHandler.on('openSettings', () => {
-      popupShow('mainSettings', 250);
+
+    on('openSkinChanger', () => {
+      visibleElements.value.SkinChanger = true;
+      visibleElements.value.Overlay = true;
+    });
+    on('closeSkinChanger', () => {
+      visibleElements.value.SkinChanger = false;
+      visibleElements.value.Overlay = false;
+    });
+
+
+    on('openSettings', () => {
+      visibleElements.value.Settings = true;
+      visibleElements.value.Overlay = true;
       game.settings.updateSettings();
       game.settings.defaultTabBtn.value.click();
     });
-    EventHandler.on('closeSettings', () => {
-      popupHide('mainSettings', 250);
+    on('closeSettings', () => {
+      visibleElements.value.Settings = false;
+      visibleElements.value.Overlay = false;  
     });
 
 
-    EventHandler.on('openServers', () => {
-      popupShow('mainServers', 250);
+    on('openServers', () => {
+      visibleElements.value.Servers = true;
+      visibleElements.value.Overlay = true;
       game.servers.onOpen();
     });
-    EventHandler.on('closeServers', () => {
-      popupHide('mainServers', 250); 
+    on('closeServers', () => {
+      visibleElements.value.Servers = false;
+      visibleElements.value.Overlay = false;  
     });
 
 
-    EventHandler.on('openFeaturedVideo', () => {
-      popupShow('featuredVideo', 250);
-    });
-    EventHandler.on('closeFeaturedVideo', () => {
-      popupHide('featuredVideo', 250); 
-    });
-
-    return { game, loggedIn, loading }
+    game.profileHandler.checkLoggedIn();
+    return { game, loggedIn, loading, visibleElements }
   }
 }
 </script>
@@ -97,23 +146,6 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap');
 
 
-/* Popup animations */
-@keyframes popupShow {
-  0% {
-    transform: scale(1.1);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-@keyframes popupHide {
-  0% {
-    transform: scale(1);
-  }
-  100% {
-    transform: scale(1.05);
-  }
-}
 @keyframes loading {
     0% {
         opacity: 1;
@@ -126,6 +158,47 @@ export default {
     }
 }
 
+
+/* <=== Popup Transition ===> */
+.popup-enter-from {
+  opacity: 0;
+  transform: scale(1.1);
+}
+.popup-enter-to {
+  opacity: 1;
+  transform: scale(1);
+}
+.popup-leave-from {
+  opacity: 1;
+  transform: scale(1);
+}
+.popup-leave-to {
+  opacity: 0;
+  transform: scale(1.1);
+}
+.popup-enter-active, .popup-leave-active {
+  transition: all 0.15s ease;
+}
+
+/* <=== Fade Transition */
+.fade-enter-from {
+  opacity: 0;
+}
+.fade-enter-to {
+  opacity: 1;
+}
+.fade-leave-from {
+  opacity: 1;
+}
+.fade-leave-to {
+  opacity: 0;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.15s ease;
+}
+
+
+
 body {
   -webkit-user-select: none;        
   -moz-user-select: none; 
@@ -134,7 +207,7 @@ body {
   padding: 0;
   margin: 0;
   overflow: hidden;
-  background-color: black;
+  background-color: #232732;
 }
 #notif {
   width: auto;
@@ -143,10 +216,10 @@ body {
   color: white;
   font-size: 16px;
   font-family: 'Quicksand';
-  background-color: rgb(25, 28, 34);
+  background-color: rgba(10, 10, 10, 0.4);
 
-  position: absolute;
-  top: 20px;
+  position: fixed;
+  top: 5px;
   left: 50%;
   transform: translateX(-50%);
 
@@ -154,8 +227,6 @@ body {
   padding-left: 15px;
   padding-right: 15px;
   border-radius: 5px;
-  transition: opacity 0.1s;
-  opacity: 0;
   z-index: 100;
 }
 #loadingScreen {
@@ -183,8 +254,8 @@ body {
 }
 #background {
   position: absolute;
-  width: 100%;
-  height: 100%;
+  width: 10000vw;
+  height: 10000vh;
   background-color: #232732;
   z-index: -2;
 }
@@ -197,7 +268,6 @@ body {
 
   background-color: #111218ee;
 
-  display: none;
   z-index: -1;
   backdrop-filter: blur(50px);
 }

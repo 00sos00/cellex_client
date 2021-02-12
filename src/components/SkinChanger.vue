@@ -55,8 +55,6 @@ export default {
 
     border-radius: 10px;
     padding: 5px;
-    opacity: 0;
-    pointer-events: none;
 }
 #skinHolder {
   width: 200px;

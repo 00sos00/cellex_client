@@ -1,7 +1,6 @@
 /*global $, jQuery*/
 
 import settingsTemplate from './settingsTemplate.json';
-import { showNotif } from '../../Functions/showNotif';
 import { merge } from 'lodash';
 
 export default class Settings {
@@ -143,7 +142,7 @@ export default class Settings {
                     input.blur();
                     this.onHotkeyChange(input);
                 } else {
-                    showNotif('This key is already taken', 1000);
+                    this.game.showNotif('This key is already taken', 1000);
                     input.blur();
                 }
             }
@@ -159,7 +158,7 @@ export default class Settings {
                     input.blur();
                     this.onHotkeyChange(input);
                 } else {
-                    showNotif('This key is already taken', 1000);
+                    this.game.showNotif('This key is already taken', 1000);
                     input.blur();
                 }
             }

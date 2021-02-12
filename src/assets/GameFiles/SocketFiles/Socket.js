@@ -1,7 +1,6 @@
 import PacketHandler from './PacketHandler';
 //import APIHandler from './apiHandler';
 import Writer from './Writer';
-import { showNotif } from '../../Functions/showNotif';
 
 export default class Socket {
     constructor(game) {
@@ -58,13 +57,12 @@ export default class Socket {
     }
 
     onOpen() {
-        showNotif('Connected to ' + this.currentGamemode, 1000);
-        this.game.scene.app.ticker.start();
+        this.game.showNotif('Connected to ' + this.currentGamemode, 1000);
         this.startPingLoop();
     }
 
     onClose() {
-        showNotif('Disconnected from ' + this.currentGamemode, 1000);
+        this.game.showNotif('Disconnected', 1000);
         this.game.resetEverything();
         this.game.showMain();
         this.stopPingLoop();

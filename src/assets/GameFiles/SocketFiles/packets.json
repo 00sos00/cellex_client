@@ -1,6 +1,8 @@
 {
-    "CACHE_NAME":     2,
-    "CACHE_PLAYER":     3,
+    "CACHE_NAME":      2,
+    "CACHE_PLAYER":    3,
+    "PLAYER_DEATH":    4,
+    "RESTART":         5, 
     "PING":           10,
     "UPDATE_CELLS":   16,
     "SPECTATE_POS":   17,

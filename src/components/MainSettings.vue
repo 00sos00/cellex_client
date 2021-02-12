@@ -1,62 +1,62 @@
 <template>
-  <div id="mainSettings" class="main">
-      <!-- Header -->
-      <header id="settingsHeader">
-          <div id="settingsTabs">
-              <button ref="defaultTabBtn" v-on:click="switchTab" class="settingsTabBtn">Options</button>  
-              <button v-on:click="switchTab" class="settingsTabBtn">Ranges</button>
-              <button v-on:click="switchTab" class="settingsTabBtn">Hotkeys</button>
-              <button v-on:click="switchTab" class="settingsTabBtn">Colors</button>
-          </div>
-      </header>
+    <div id="mainSettings" class="main">
+        <!-- Header -->
+        <header id="settingsHeader">
+            <div id="settingsTabs">
+                <button ref="defaultTabBtn" v-on:click="switchTab" class="settingsTabBtn">Options</button>  
+                <button v-on:click="switchTab" class="settingsTabBtn">Ranges</button>
+                <button v-on:click="switchTab" class="settingsTabBtn">Hotkeys</button>
+                <button v-on:click="switchTab" class="settingsTabBtn">Colors</button>
+            </div>
+        </header>
 
-      <!-- Content -->
-      <div id="settingsContent">
-          <!-- Options -->
-          <div class="settingsTab" id="Options">
-              <div v-for="option in options" :key="option" class="settingsOption">
-                  <p class="settingsOptionName">{{ option.name }}</p>
-                  <div class="settingsOptionValues">
-                    <div @click="onOptionChange" :data-optionName="option.name" v-for="value in option.possibleValues" :key="value" class="settingsOptionValue">{{ value }}</div>
-                  </div>
-              </div>
-              <button class="settingsResetBtn" @click="resetOptions">Reset</button>
-          </div>
+        <!-- Content -->
+        <div id="settingsContent">
+            <!-- Options -->
+            <div class="settingsTab" id="Options">
+                <div v-for="option in options" :key="option" class="settingsOption">
+                    <p class="settingsOptionName">{{ option.name }}</p>
+                    <div class="settingsOptionValues">
+                        <div @click="onOptionChange" :data-optionName="option.name" v-for="value in option.possibleValues" :key="value" class="settingsOptionValue">{{ value }}</div>
+                    </div>
+                </div>
+                <button class="settingsResetBtn" @click="resetOptions">Reset</button>
+            </div>
 
-          <!-- Ranges -->
-          <div class="settingsTab" id="Ranges">
-              <div v-for="range in ranges" :key="range" class="settingsRange">
-                  <p class="settingsRangeName">{{ range.name }}</p>
-                  <input @input="onRangeChange" class="settingsRangeInput" type="range" :data-rangeName="range.name" :value="range.defaultValue" :min="range.minValue" :max="range.maxValue" :step="range.step">
-                  <div class="rangeInputValue"></div>
-              </div>
-              <button class="settingsResetBtn" @click="resetRanges">Reset</button>
-          </div>
+            <!-- Ranges -->
+            <div class="settingsTab" id="Ranges">
+                <div v-for="range in ranges" :key="range" class="settingsRange">
+                    <p class="settingsRangeName">{{ range.name }}</p>
+                    <input @input="onRangeChange" class="settingsRangeInput" type="range" :data-rangeName="range.name" :value="range.defaultValue" :min="range.minValue" :max="range.maxValue" :step="range.step">
+                    <div class="rangeInputValue"></div>
+                </div>
+                <button class="settingsResetBtn" @click="resetRanges">Reset</button>
+            </div>
 
-          <!-- Hotkeys -->
-          <div class="settingsTab" id="Hotkeys">
-              <div v-for="hotkey in hotkeys" :key="hotkey" class="settingsHotkey">
-                  <p class="settingsHotkeyName">{{ hotkey.name }}</p>
-                  <input type="text" class="settingsHotkeyInput" :data-hotkeyName="hotkey.name" spellcheck="false" maxlength="1">
-              </div>
-              <button class="settingsResetBtn" @click="resetHotkeys">Reset</button>
-          </div>
+            <!-- Hotkeys -->
+            <div class="settingsTab" id="Hotkeys">
+                <div v-for="hotkey in hotkeys" :key="hotkey" class="settingsHotkey">
+                    <p class="settingsHotkeyName">{{ hotkey.name }}</p>
+                    <input type="text" class="settingsHotkeyInput" :data-hotkeyName="hotkey.name" spellcheck="false" maxlength="1">
+                </div>
+                <button class="settingsResetBtn" @click="resetHotkeys">Reset</button>
+            </div>
 
-          <!-- Colors -->
-          <div class="settingsTab" id="Colors">
-              <div v-for="color in colors" :key="color" class="settingsColor">
-                  <p class="settingsColorName">{{ color.name }}</p>
-                  <input type="text" class="settingsColorInput" :data-colorName="color.name" spellcheck="false">
-              </div>
-              <button class="settingsResetBtn" @click="resetColors">Reset</button>
-          </div>
-      </div>
+            <!-- Colors -->
+            <div class="settingsTab" id="Colors">
+                <div v-for="color in colors" :key="color" class="settingsColor">
+                    <p class="settingsColorName">{{ color.name }}</p>
+                    <input type="text" class="settingsColorInput" :data-colorName="color.name" spellcheck="false">
+                </div>
+                <button class="settingsResetBtn" @click="resetColors">Reset</button>
+            </div>
+        </div>
 
-      <!-- Footer -->
-      <footer id="settingsFooter">
-          <button v-on:click="closeSettings" id="settingsCloseBtn">Close</button>
-      </footer>
-  </div>
+        <!-- Footer -->
+        <footer id="settingsFooter">
+            <button v-on:click="closeSettings" id="settingsCloseBtn">Close</button>
+        </footer>
+    </div>
 </template>
 
 <script>
@@ -109,9 +109,6 @@ export default {
     margin: 0 auto;
 
     border-radius: 15px;
-
-    pointer-events: none;
-    opacity: 0;
     overflow: hidden;
 }
 

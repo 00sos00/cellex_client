@@ -1,5 +1,3 @@
-/*global $*/
-
 import Socket from './SocketFiles/Socket';
 import HotkeysHandler from './HotkeysHandler';
 import PlayerManager from './PlayerManagerFiles/PlayerManager';
@@ -61,21 +59,50 @@ export default class Game {
     }
 
     joinGame() {
+        if (!this.socket.isConnectionOpen()) return;
         let name = localStorage.getItem('name') || '';
         let tag = localStorage.getItem('tag') || '';
         let skinCode = localStorage.getItem('skinCode') || '';
         this.socket.packetHandler.joinGame({name, tag, skinCode});
         this.hideMain();
+        this.hideDeathMenu();
+    }
+
+    respawn() {
+        if (!this.socket.isConnectionOpen()) return;
+        let name = localStorage.getItem('name') || '';
+        let tag = localStorage.getItem('tag') || '';
+        let skinCode = localStorage.getItem('skinCode') || '';
+        this.socket.packetHandler.respawn({name, tag, skinCode}); 
+    }
+
+    showNotif(Title, Timeout) {
+        window.notifT && clearTimeout(window.notifT);
+        let notifElement = document.getElementById('notif');
+            notifElement.textContent = Title;
+            this.EventHandler.emit('showNotif');
+        window.notifT = setTimeout(() => {
+            this.EventHandler.emit('hideNotif');
+        }, Timeout);
     }
 
     showMain() {
-        $(".main").fadeIn(250);
+        this.hideDeathMenu();
+        this.EventHandler.emit('showMain');
         this.mainOpen = true;
     }
 
     hideMain() {
-        $(".main").fadeOut(250);
+        this.EventHandler.emit('hideMain');
         this.mainOpen = false;
+    }
+
+    showDeathMenu() {
+        this.EventHandler.emit('showDeathMenu');
+    }
+
+    hideDeathMenu() {
+        this.EventHandler.emit('hideDeathMenu');
     }
 
     resetEverything() {

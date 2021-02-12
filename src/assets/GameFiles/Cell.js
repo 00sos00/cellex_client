@@ -88,7 +88,7 @@ export default class Cell {
         const dt = Math.max(Math.min((currentTime - this.lastUpdateTime) / animationDelay, 1), 0);
         this.x = this.x + (this.nx - this.x) * dt;
         this.y = this.y + (this.ny - this.y) * dt;
-        this.s = this.s + (this.ns - this.s) * dt;
+        this.s = this.s + (this.ns - this.s) * 0.2;
         if (this.sprite) {
             this.sprite.x = this.x;
             this.sprite.y = this.y;
@@ -203,6 +203,5 @@ export default class Cell {
         this.game.virusCells.delete(this.id);
         this.game.motherCells.delete(this.id);
         this.sprite && this.sprite.destroy();
-        this.game.ownedCells.size == 0 && this.owner && this.owner.isMe && !this.owner.SPEC && this.game.showMain();
     }
 }

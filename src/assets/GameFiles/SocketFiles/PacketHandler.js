@@ -86,11 +86,21 @@ export default class PacketHandler {
         this.socket.sendPacket(12);
     }
 
-    respawn() {
-        this.socket.sendPacket(13);
+    respawn(data) {
+        if (!this.socket.isConnectionOpen()) return;
+        let packet = new Writer(true);
+                
+        packet.setUint8(13);
+        packet.setStringUTF8(JSON.stringify(data));
+        if (packet.build)
+            this.socket.wsConnection.send(packet.build());
+        else 
+            this.socket.wsConnection.send(packet);
+        packet = null;
     }
 
     startSpectating() {
+        if (!this.socket.isConnectionOpen()) return;
         this.socket.sendPacket(14);
         this.socket.game.hideMain();
     }
@@ -112,6 +122,22 @@ export default class PacketHandler {
         const playerSkinCode = reader.getStringUTF8();
         this.socket.game.playerManager.getPlayerById(playerId).cacheNameText(playerName);
         this.socket.game.playerManager.getPlayerById(playerId).cacheSkin(playerSkinCode);
+    }
+
+    onDeath() {
+        this.socket.game.showDeathMenu();
+    }
+
+    onRestart() {
+        window.restartTime = 15;
+        window.restartI = setInterval(() => {
+            this.socket.game.showNotif(`Server Restarting In ${window.restartTime} Seconds`, 750);
+            window.restartTime--;
+            if (window.restartTime <= -1)
+                clearInterval(window.restartI);
+        }, 1000);
+        this.socket.game.showNotif(`Server Restarting In ${window.restartTime} Seconds`, 750);
+        window.restartTime--;
     }
 
     onPing(reader) {
@@ -294,6 +320,14 @@ export default class PacketHandler {
             }
             case packets['CACHE_PLAYER']: {
                 this.onCachePlayer(reader);
+                break;
+            }
+            case packets['PLAYER_DEATH']: {
+                this.onDeath();
+                break;
+            }
+            case packets['RESTART']: {
+                this.onRestart();
                 break;
             }
             case packets['PING']: {

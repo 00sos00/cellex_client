@@ -1,4 +1,4 @@
-import showNotif from '../Functions/showNotif'; showNotif
+//import showNotif from '../Functions/showNotif'; showNotif
 
 export default class ProfileHandler {
     constructor(game) {
@@ -6,28 +6,19 @@ export default class ProfileHandler {
     }
 
     checkLoggedIn() {
-
+        if (localStorage.accessToken && localStorage.accessToken != "undefined")
+            this.game.EventHandler.emit('loggedIn');
+        else
+            this.game.EventHandler.emit('loggedOut');
     }
 
-    async login(username, password) {
-        let response = await fetch('http://localhost:80/api/login', {
-            method: "POST",
-            body: { username, password },
-            headers: { 'Content-Type': 'application/json' }
-        });
-        console.log(response);
+    login(e) {
+        window.open("http://localhost/api/login/url", "", "width=500, height=600");
+        window.loginBtn = e.target;
+        window.loginBtn.disabled = true;
     }
 
     logout() {
 
-    }
-
-    async register(username, email, password) {
-        let response = await fetch('http://localhost:80/api/register', {
-            method: "POST",
-            body: { username, email, password },
-            headers: { 'Content-Type': 'application/json' }
-        });
-        console.log(response);
     }
 }
