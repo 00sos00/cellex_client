@@ -20,8 +20,15 @@
         <div id="leaderboardRows"></div>
       </div>
       <div id="mainChat" @mouseover="chatMouseOver" @mouseout="chatMouseOut">
-        <div id="messages"></div>
-        <input @focus="onChatFocus" @blur="onChatBlur" type="text" id="chatInput" maxlength="256" spellcheck="false" placeholder="Message Here..." autocomplete="off">
+        <transition-group name="message" tag="div" id="messages">
+          <div class="message" v-for="msg in messages" :key="msg">
+            <span class="messageName" :style="`color: #${msg.color.toHEX()};`">
+              {{ msg.name }}
+              <span class="messageText">{{ msg.text }}</span>
+            </span>
+          </div>
+        </transition-group>
+        <input @focus="onChatFocus" @blur="onChatBlur" type="text" id="chatInput" maxlength="256" spellcheck="false" placeholder="Type here..." autocomplete="off">
       </div>
       <div id="mainMinimap">
         <canvas id="minimapCanvas"></canvas>
@@ -31,7 +38,7 @@
 </template>
 
 <script>
-import { getCurrentInstance, onMounted } from 'vue';
+import { getCurrentInstance, nextTick, onMounted, ref, watch } from 'vue';
 import Scene from '../assets/GameFiles/Scene';
 
 export default {
@@ -42,9 +49,19 @@ export default {
     window.isTyping = false;
     const self = getCurrentInstance();
     const game = self.props.game;
+          game.chat.messages = ref([]);
+    const messages = game.chat.messages;
     onMounted(() => {
         const mainScene = document.getElementById('mainScene');
-        const scene = new Scene(game, mainScene); scene
+        new Scene(game, mainScene);
+    });
+
+    watch(game.chat.messages, () => {
+      nextTick(() => {
+        const msgs = document.getElementById('messages');
+        if (msgs.scrollTop + msgs.clientHeight + 28 >= msgs.scrollHeight)
+            msgs.scrollTop = msgs.scrollHeight;
+      });
     });
 
     function chatMouseOver() {
@@ -63,13 +80,22 @@ export default {
       window.isTyping = false;
     }
 
-    return { chatMouseOver, chatMouseOut, onChatFocus, onChatBlur }
+    return { chatMouseOver, chatMouseOut, onChatFocus, onChatBlur, messages }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+.message-enter-from,
+.message-leave-to {
+  opacity: 0;
+}
+.message-enter-active,
+.message-leave-active {
+  transition: all 0.4s;
+}
+
 #mainScene {
     width: 100%;
     height: 100%;
@@ -222,7 +248,6 @@ export default {
   float: left;
 }
 .messageName {
-  color: #4480d4;
   font-size: 16px;
   font-family: 'Arial';
 }
@@ -243,7 +268,7 @@ export default {
   color: white;
   font-size: 16px;
   font-family: 'Arial';
-  background-color: transparent;
+  background-color: rgba(10, 10, 10, 0.1);
 
   border: none;
   outline: none;

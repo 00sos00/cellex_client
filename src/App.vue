@@ -4,7 +4,7 @@
   <MainScene v-show="visibleElements.Scene" :game="game"/>
 
   <!-- Fades -->
-  <transition-group tag="div" name="fade">
+  <transition-group tag="div" name="fade" appear>
     <MainPlay v-if="loggedIn && !loading && visibleElements.Main"  key="1" :game="game"/>
     <DeathMenu v-show="visibleElements.DeathMenu"  key="1" :game="game"/>
     <div id="notif" v-show="visibleElements.Notification" key="1"></div>
@@ -15,7 +15,7 @@
 
   <!-- Popups -->
   <transition-group tag="div" name="popup">
-    <MainSettings v-show="visibleElements.Settings" :game="game" key="1"/>
+    <MainSettings v-if="visibleElements.Settings" :game="game" key="1"/>
     <Servers v-show="visibleElements.Servers" :game="game" key="1"/>
     <SkinChanger v-show="visibleElements.SkinChanger" :game="game" key="1"/>
   </transition-group>
@@ -69,6 +69,8 @@ export default {
       Notification: false
     });
 
+    
+
     on('showNotif', () => visibleElements.value.Notification = true);
     on('hideNotif', () => visibleElements.value.Notification = false);
 
@@ -79,6 +81,8 @@ export default {
     on('loggedOut', () => {
       loggedIn.value = false;
       loading.value = false;
+      localStorage.removeItem('accessToken');
+      game.profileHandler.resetProfile();
     });
 
     on('showMain', () => {
@@ -114,8 +118,6 @@ export default {
     on('openSettings', () => {
       visibleElements.value.Settings = true;
       visibleElements.value.Overlay = true;
-      game.settings.updateSettings();
-      game.settings.defaultTabBtn.value.click();
     });
     on('closeSettings', () => {
       visibleElements.value.Settings = false;
@@ -254,8 +256,10 @@ body {
 }
 #background {
   position: absolute;
+
   width: 10000vw;
   height: 10000vh;
+
   background-color: #232732;
   z-index: -2;
 }

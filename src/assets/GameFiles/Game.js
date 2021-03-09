@@ -1,14 +1,18 @@
 import Socket from './SocketFiles/Socket';
+import Settings from './SettingsFiles/Settings';
 import HotkeysHandler from './HotkeysHandler';
 import PlayerManager from './PlayerManagerFiles/PlayerManager';
 import ProfileHandler from './ProfileHandler';
+import APISocket from './APISocket';
 
 export default class Game {
     constructor(EventHandler) {
         this.EventHandler = EventHandler;
         this.socket = new Socket(this);
+        this.settings = new Settings(this);
         this.hotkeysHandler = new HotkeysHandler(this);
         this.playerManager = new PlayerManager(this);
+        this.apiSocket = new APISocket(this);
         this.profileHandler = new ProfileHandler(this);
         this.Ping = 0;
         this.FPS = 0;
@@ -35,10 +39,9 @@ export default class Game {
             centerY: 0
         }
         this.chat = {
-            messages: new Map(),
+            messages: [],
             clear() {
-                this.messages.clear();
-                document.getElementById('messages').innerHTML = '';
+                this.messages.value = [];
             }
         }
         this.leaderBoard = {

@@ -257,9 +257,9 @@ export default class PacketHandler {
     }
 
     onChatMessage(reader) {
+        let messages = [...this.socket.game.chat.messages.value];
         let flags = reader.getUint8();
-        let messageAmount = this.socket.game.chat.messages.size;
-        this.socket.game.chat.messages.set(messageAmount + 1, {
+        messages.push({
             type: {
                 isServer: !!(flags & 0x80),
                 isAdmin: !!(flags & 0x40)
@@ -272,7 +272,7 @@ export default class PacketHandler {
             name: reader.getStringUTF8(),
             text: reader.getStringUTF8()
         });
-        this.socket.game.scene.updateChat();
+        this.socket.game.chat.messages.value = messages;
     }
 
     removePlayer(reader) {
@@ -294,6 +294,11 @@ export default class PacketHandler {
                 playerS: reader.getUint32() / 100,
                 cellsAmount: reader.getUint16(),
                 maxCells: reader.getUint16(),
+                color: new Color('rgb', {
+                    r: reader.getUint16(),
+                    g: reader.getUint16(),
+                    b: reader.getUint16(),
+                }),
                 name: reader.getStringUTF8(),
                 skinCode: reader.getStringUTF8()
             }

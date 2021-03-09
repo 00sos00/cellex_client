@@ -3,7 +3,7 @@
         <!-- Header -->
         <header id="settingsHeader">
             <div id="settingsTabs">
-                <button ref="defaultTabBtn" v-on:click="switchTab" class="settingsTabBtn">Options</button>  
+                <button v-on:click="switchTab" class="settingsTabBtn defaultTabBtn">Options</button>  
                 <button v-on:click="switchTab" class="settingsTabBtn">Ranges</button>
                 <button v-on:click="switchTab" class="settingsTabBtn">Hotkeys</button>
                 <button v-on:click="switchTab" class="settingsTabBtn">Colors</button>
@@ -12,44 +12,46 @@
 
         <!-- Content -->
         <div id="settingsContent">
-            <!-- Options -->
-            <div class="settingsTab" id="Options">
-                <div v-for="option in options" :key="option" class="settingsOption">
-                    <p class="settingsOptionName">{{ option.name }}</p>
-                    <div class="settingsOptionValues">
-                        <div @click="onOptionChange" :data-optionName="option.name" v-for="value in option.possibleValues" :key="value" class="settingsOptionValue">{{ value }}</div>
+            <transition-group name="switch" mode="out-in">
+                <!-- Options -->
+                <div class="settingsTab" key="1" v-show="visibleTabs.Options">
+                    <div v-for="option in options" :key="option" class="settingsOption">
+                        <p class="settingsOptionName">{{ option.name }}</p>
+                        <div class="settingsOptionValues">
+                            <div @click="onOptionChange" :data-optionName="option.name" v-for="value in option.possibleValues" :key="value" class="settingsOptionValue">{{ value }}</div>
+                        </div>
                     </div>
+                    <button class="settingsResetBtn" @click="resetOptions">Reset</button>
                 </div>
-                <button class="settingsResetBtn" @click="resetOptions">Reset</button>
-            </div>
 
-            <!-- Ranges -->
-            <div class="settingsTab" id="Ranges">
-                <div v-for="range in ranges" :key="range" class="settingsRange">
-                    <p class="settingsRangeName">{{ range.name }}</p>
-                    <input @input="onRangeChange" class="settingsRangeInput" type="range" :data-rangeName="range.name" :value="range.defaultValue" :min="range.minValue" :max="range.maxValue" :step="range.step">
-                    <div class="rangeInputValue"></div>
+                <!-- Ranges -->
+                <div class="settingsTab" key="1" v-show="visibleTabs.Ranges">
+                    <div v-for="range in ranges" :key="range" class="settingsRange">
+                        <p class="settingsRangeName">{{ range.name }}</p>
+                        <input @input="onRangeChange" class="settingsRangeInput" type="range" :data-rangeName="range.name" :value="range.defaultValue" :min="range.minValue" :max="range.maxValue" :step="range.step">
+                        <div class="rangeInputValue"></div>
+                    </div>
+                    <button class="settingsResetBtn" @click="resetRanges">Reset</button>
                 </div>
-                <button class="settingsResetBtn" @click="resetRanges">Reset</button>
-            </div>
 
-            <!-- Hotkeys -->
-            <div class="settingsTab" id="Hotkeys">
-                <div v-for="hotkey in hotkeys" :key="hotkey" class="settingsHotkey">
-                    <p class="settingsHotkeyName">{{ hotkey.name }}</p>
-                    <input type="text" class="settingsHotkeyInput" :data-hotkeyName="hotkey.name" spellcheck="false" maxlength="1">
+                <!-- Hotkeys -->
+                <div class="settingsTab" key="1" v-show="visibleTabs.Hotkeys">
+                    <div v-for="hotkey in hotkeys" :key="hotkey" class="settingsHotkey">
+                        <p class="settingsHotkeyName">{{ hotkey.name }}</p>
+                        <HotkeyInput :game="game_" :name="hotkey.name"/>
+                    </div>
+                    <button class="settingsResetBtn" @click="resetHotkeys">Reset</button>
                 </div>
-                <button class="settingsResetBtn" @click="resetHotkeys">Reset</button>
-            </div>
 
-            <!-- Colors -->
-            <div class="settingsTab" id="Colors">
-                <div v-for="color in colors" :key="color" class="settingsColor">
-                    <p class="settingsColorName">{{ color.name }}</p>
-                    <input type="text" class="settingsColorInput" :data-colorName="color.name" spellcheck="false">
+                <!-- Colors -->
+                <div class="settingsTab" key="1" v-show="visibleTabs.Colors">
+                    <div v-for="color in colors" :key="color" class="settingsColor">
+                        <p class="settingsColorName">{{ color.name }}</p>
+                        <ColorPicker :name="color.name" :game="game_"/>
+                    </div>
+                    <button class="settingsResetBtn" @click="resetColors">Reset</button>
                 </div>
-                <button class="settingsResetBtn" @click="resetColors">Reset</button>
-            </div>
+            </transition-group>
         </div>
 
         <!-- Footer -->
@@ -61,18 +63,30 @@
 
 <script>
 import { getCurrentInstance, onMounted, ref } from 'vue';
-import Settings from '../assets/GameFiles/SettingsFiles/Settings';
+import HotkeyInput from './HotkeyInput';
+import ColorPicker from './ColorPicker';
 
 export default {
   name: 'MainSettings',
   props: ['game'],
+  components: { 
+    HotkeyInput,
+    ColorPicker 
+  },
   setup() {
     const self = getCurrentInstance();
-    const EventHandler = self.appContext.config.globalProperties.EventHandler;
-    const game = self.props.game;
-    const defaultTabBtn = ref(null);
-    const settings = new Settings(game, EventHandler, defaultTabBtn);
-    onMounted(settings.onload.bind(settings));
+    const game_ = self.props.game;
+    const settings = game_.settings;
+    settings.visibleTabs = ref({
+        Options: false,
+        Ranges: false,
+        Hotkeys: false,
+        Colors: false
+    });
+    onMounted(() => {
+        self.vnode.el.getElementsByClassName('defaultTabBtn')[0].click();
+        settings.updateSettings();
+    });
 
     return { 
         closeSettings: settings.closeSettings.bind(settings),
@@ -87,7 +101,8 @@ export default {
         resetRanges: settings.resetRanges.bind(settings),
         resetHotkeys: settings.resetHotkeys.bind(settings),
         resetColors: settings.resetColors.bind(settings),
-        defaultTabBtn
+        game_,
+        visibleTabs: settings.visibleTabs
     }
   }
 }
@@ -95,6 +110,22 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.switch-enter-from {
+    opacity: 0;
+}
+.switch-leave-to {
+    opacity: 0;
+}
+.switch-enter-active, 
+.switch-leave-active {
+    transition: all 0.2s;
+}
+
+
+
+
+
+
 #mainSettings {
     width: 500px;
     height: 400px;
@@ -179,7 +210,7 @@ export default {
     background-color: #1013187e;
 
     border-radius: 10px;
-    overflow-x: none;
+    overflow-x: hidden;
     overflow-y: auto;
 }
 #settingsContent::-webkit-scrollbar {
@@ -197,6 +228,8 @@ export default {
 .settingsTab {
     width: 100%;
     height: 100%;
+
+    position: relative;
 }
 .settingsOption,
 .settingsRange,
@@ -207,8 +240,7 @@ export default {
 
     position: relative;
     top: 5px;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 7.5px;
 
     background-color: #101318;
 
@@ -327,39 +359,6 @@ export default {
 
     padding: 5px;
     border-radius: 5px;
-}
-
-
-
-
-.settingsHotkeyInput {
-    width: 120px;
-    height: 30px;
-
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-
-    color: white;
-    background-color: #323646;
-    font-size: 18px;
-    font-family: 'Quicksand';
-    line-height: 30px;
-    text-align: center;
-
-    border: none;
-    outline: none;
-    border-radius: 5px;
-    caret-color: transparent;
-}
-.settingsHotkeyInput:hover:not(:focus) {
-    opacity: 0.9;
-    cursor: pointer;
-}
-.settingsHotkeyInput:focus {
-    background-color: #242631;
-    cursor: default;
 }
 
 

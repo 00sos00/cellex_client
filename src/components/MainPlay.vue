@@ -17,7 +17,7 @@
 
     <!-- For the skin inside the xp circle -->
     <div id="skinHolder">
-      <img v-on:click="openSkinChanger" class="skinImage" src="../assets/Images/defaultSkin.png"/>
+      <img v-on:click="openSkinChanger" class="skinImage" alt="Skin" src="../assets/Images/defaultSkin.png"/>
       <p id="changeSkinText">Change Skin</p>
     </div>
 

@@ -14,6 +14,7 @@ export default class Player {
         this.size = data.playerS;
         this.cellsAmount = data.cellsAmount;
         this.maxCells = data.maxCells;
+        this.color = data.color;
         this.IDLE = data.IDLE;
         this.SPEC = data.SPEC;
         this.PLAY = data.PLAY;
@@ -36,6 +37,7 @@ export default class Player {
         this.size = data.playerS;
         this.cellsAmount = data.cellsAmount;
         this.maxCells = data.maxCells;
+        this.color = data.color;
         this.IDLE = data.IDLE;
         this.SPEC = data.SPEC;
         this.PLAY = data.PLAY;

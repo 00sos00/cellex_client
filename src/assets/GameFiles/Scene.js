@@ -18,14 +18,8 @@ export default class Scene {
         this.minimapCtx = this.minimapCanvas.getContext('2d');
         this.minimapCanvas.width = 200;
         this.minimapCanvas.height = 200; 
-        setInterval(() => {
-            this.game.gameCells.forEach(cell => {
-                cell.type == 'Player' && cell.updateVisiblity();
-            });
-        }, 200);
-        setInterval(() => {
-            this.sendMousePosition();
-        }, 40);
+        setInterval(() => this.game.gameCells.forEach(cell => cell.updateVisiblity()), 200);
+        setInterval(this.sendMousePosition.bind(this), 40);
     }
     
     lerp (start, end, amount) {
@@ -112,29 +106,6 @@ export default class Scene {
         lbElement.innerHTML = html;
     }
 
-    updateChat() {
-        let messages = this.game.chat.messages;
-        let messagesElement = document.getElementById('messages');
-        let html = '';
-        let isScrollingChat = false;
-        if (messagesElement.scrollHeight - (messagesElement.offsetHeight + messagesElement.scrollTop) < 1)
-            isScrollingChat = false;
-        else 
-            isScrollingChat = true;
-        messages.forEach(msg => {
-            msg.text = msg.text.replace(/(<([^>]+)>)/ig, "");
-            html += `<span class="message">
-                        <span class="messageName">
-                            ${msg.name}
-                            <span class="messageText">${msg.text}</span>
-                        </span>
-                     </span>`;
-        });
-        messagesElement.innerHTML = html;
-        if (!isScrollingChat)
-            messagesElement.scrollTo(0, messagesElement.scrollHeight);
-    }
-
     updateMinimap() {
         let minimapSize = 200;
         let borderSize = (this.game.border.width + this.game.border.height) / 2;
@@ -152,7 +123,7 @@ export default class Scene {
                         this.minimapCtx.font = "15px Arial";
                         this.minimapCtx.textAlign = "center";
                         player.isMe || this.minimapCtx.fillText(player.name, x, y + 25);
-                        this.minimapCtx.fillStyle = player.isMe ? '#ffffff' : '#4480d4';
+                        this.minimapCtx.fillStyle = player.isMe ? '#ffffff' : `#${player.color.toHEX()}`;
                         this.minimapCtx.arc(x, y, 5, 0, Math.PI * 2);
                         this.minimapCtx.fill();
                     this.minimapCtx.closePath();
