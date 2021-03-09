@@ -1,7 +1,7 @@
 import Reader from './SocketFiles/Reader';
 import Writer from './SocketFiles/Writer';
 
-export default class Color {
+export default class APISocket {
     constructor(game) {
         this.game = game;
         this.wsConnection = null;
@@ -24,7 +24,7 @@ export default class Color {
     startPingLoop() {
         this.pingLoop = setInterval(() => {
             this.sendPingPacket();
-        }, 15000);
+        }, 5000);
     }
 
     stopPingLoop() {

@@ -1,9 +1,15 @@
 <template>
   <div id="mainPlay">
+    <!-- Coins Box -->
+    <div class="coinsBox">
+      <div class="coinSymbol">$</div>
+      <div class="coinsValue">{{ profileCoins }}</div>
+    </div>
+
     <!-- Nav buttons -->
     <div id="mainNav">
       <button class="navBtn">Shop</button>
-      <button class="navBtn">Profile</button>
+      <button class="navBtn" @click="openProfile">Profile</button>
       <button class="navBtn" @click="openServers">Servers</button>
       <button class="navBtn">Skins</button>
       <button class="navBtn" @click="openFeaturedVideo">Featured Video</button>
@@ -74,20 +80,19 @@ export default {
       EventHandler.emit('openServers');
     }
 
-    const openFeaturedVideo = () => {
-      EventHandler.emit('openFeaturedVideo');
-    }
+    const openProfile = () => EventHandler.emit('openProfile');
 
     return { 
       openSkinChanger, 
       openSettings, 
       openServers,
-      openFeaturedVideo,
+      openProfile,
       onNameChange, 
       onTagChange,
       joinGame,
       spectate,
-      videoEmbedLink 
+      videoEmbedLink,
+      profileCoins: game.profileHandler.profile.coins 
     }
   }
 }
@@ -119,9 +124,52 @@ export default {
     height: 300px;
 
     box-sizing: border-box;
-    /* border: 2px #4a5cd4 solid; */
     border-radius: 10px;
     display: none;
+}
+
+
+.coinsBox {
+  width: 120px;
+  height: 40px;
+
+  position: fixed;
+  top: 5px;
+  right: 10px;
+
+  background-color: #181b227e;
+
+  border-radius: 5px;
+}
+.coinSymbol {
+  width: 25px;
+  height: 25px;
+
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  transform: translateY(-50%);
+
+
+  color: #fad500;
+  font-family: 'Quicksand';
+  font-size: 16px;
+  background-color: #fab700;
+  text-align: center;
+  line-height: 25px;
+  
+  box-sizing: border-box;
+  border-radius: 50%;
+}
+.coinsValue {
+  position: absolute;
+  top: 50%;
+  right: 5px;
+  transform: translateY(-50%);
+
+  color: white;
+  font-family: 'Quicksand';
+  font-size: 16px;
 }
 
 #mainNav {

@@ -18,6 +18,7 @@
     <MainSettings v-if="visibleElements.Settings" :game="game" key="1"/>
     <Servers v-show="visibleElements.Servers" :game="game" key="1"/>
     <SkinChanger v-show="visibleElements.SkinChanger" :game="game" key="1"/>
+    <Profile v-show="visibleElements.Profile" :game="game" key="1"/>
   </transition-group>
 
 
@@ -36,6 +37,7 @@ import MainScene from './components/MainScene';
 import Servers from './components/Servers';
 import Auth from './components/Auth';
 import DeathMenu from './components/DeathMenu';
+import Profile from './components/Profile';
 /* import FeaturedVideo from './components/FeaturedVideo'; */
 import Game from './assets/GameFiles/Game';
 
@@ -48,7 +50,8 @@ export default {
     MainScene,
     Servers,
     Auth,
-    DeathMenu
+    DeathMenu,
+    Profile
   },
   setup() {
     const self = getCurrentInstance();
@@ -65,6 +68,7 @@ export default {
       SkinChanger: false,
       Overlay: false,
       Scene: false,
+      Profile: false,
       Background: true,
       Notification: false
     });
@@ -102,6 +106,16 @@ export default {
     on('hideDeathMenu', () => {
       visibleElements.value.DeathMenu = false;
       visibleElements.value.Background = false;
+    });
+
+
+    on('openProfile', () => {
+      visibleElements.value.Profile = true;
+      visibleElements.value.Overlay = true;
+    });
+    on('closeProfile', () => {
+      visibleElements.value.Profile = false;
+      visibleElements.value.Overlay = false;
     });
 
 

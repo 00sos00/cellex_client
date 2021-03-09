@@ -1,9 +1,14 @@
-//import showNotif from '../Functions/showNotif'; showNotif
+import { ref } from 'vue';
 
 export default class ProfileHandler {
     constructor(game) {
         this.game = game;
-        this.profile = {};
+        this.profile = {
+            name: ref(''),
+            xp: ref(0),
+            level: ref(0),
+            coins: ref(0)
+        };
     }
 
     checkLoggedIn() {
@@ -21,18 +26,27 @@ export default class ProfileHandler {
 
     logout() {
         this.game.apiSocket.close();
+        if (this.game.socket.isConnected())
+            this.game.socket.close();
     }
 
     updateProfile(data) {
-        console.log(data)
-        this.profile = {
-            name: data.discUsername,
-            coins: data.coins,
-            xp: data.xp
-        }
+        const parseCoins = (c) => c.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        const coins = parseCoins(data.coins);
+        const level = 0;
+
+        this.profile.name.value = data.discUsername;
+        this.profile.xp.value = data.xp;
+        this.profile.level.value = level;
+        this.profile.coins.value = coins;
     }
 
     resetProfile() {
-        this.profile = {};
+        this.profile = {
+            name: ref(''),
+            xp: ref(0),
+            level: ref(0),
+            coins: ref(0)
+        };
     }
 }

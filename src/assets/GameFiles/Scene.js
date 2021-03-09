@@ -190,7 +190,7 @@ export default class Scene {
         let camera = this.game.camera;
         let mouseX = (mouse.x - this.view.width / 2) / camera.scale + camera.x;
         let mouseY = (mouse.y - this.view.height / 2) / camera.scale + camera.y;
-        if (this.game.socket.isConnectionOpen())
+        if (this.game.socket.isConnected())
             this.game.socket.packetHandler.sendMouse(mouseX, mouseY);
     }
 

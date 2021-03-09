@@ -11,7 +11,7 @@ export default class Socket {
         this.currentGamemode = '';
     }
 
-    isConnectionOpen() {
+    isConnected() {
         return this.wsConnection && this.wsConnection.readyState === 1;
     }
 
@@ -70,5 +70,10 @@ export default class Socket {
 
     onMessage(message) {
         this.packetHandler.handleMessage(message);
+    }
+
+    close() {
+        this.wsConnection && this.wsConnection.close();
+        this.wsConnection = null;
     }
 }
