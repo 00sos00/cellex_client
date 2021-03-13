@@ -33,16 +33,14 @@ export default class Socket {
         }
     }
 
-    sendPacket(packetId) {
-        let packet = new Writer(true);
-        if (this.isConnectionOpen()) {
-            packet.setUint8(packetId);
-            if (packet.build) 
-                this.wsConnection.send(packet.build()); 
-            else
-                this.wsConnection.send(packet);
+    sendPacket(ID, Data = {}) {
+        if (this.isConnected()) {
+            const packet = new Writer(true);
+                  packet.setUint8(ID);
+            for (const index in Data)
+                packet[Data[index]["func"]](Data[index]["value"]);
+            this.wsConnection.send(packet.build ? packet.build() : packet);
         }
-        packet = null;
     }
 
     startPingLoop() {

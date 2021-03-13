@@ -1,5 +1,12 @@
 <template>
   <div id="profile">
+    <div class="profileAvatar">
+        <img :src="avatarLink" alt="Avatar" class="avatarImage">
+        <svg width="135" height="135" class="xpCircleHolder">
+            <circle r="52.5" cx="67.5" cy="67.5" class="xpCircleBar"></circle>
+            <circle r="52.5" cx="67.5" cy="67.5" class="xpCircleProgress"></circle>
+        </svg>
+    </div>
     <div class="profileInfo">
         <div class="profileRow">
             <span class="profileKey">
@@ -9,7 +16,7 @@
         </div>
         <div class="profileRow">
             <span class="profileKey">
-                Xp:
+                Exp:
                 <span class="profileValue">{{ xp }}</span>
             </span>
         </div>
@@ -26,7 +33,7 @@
 </template>
 
 <script>
-import { getCurrentInstance, onMounted} from 'vue';
+import { getCurrentInstance, onMounted } from 'vue';
 
 export default {
   name: 'Profile',
@@ -34,10 +41,7 @@ export default {
   setup() {
     const self = getCurrentInstance();
     const game = self.props.game;
-
-    onMounted(() => {
-        game;
-    });
+    onMounted(game.profileHandler.updateProgressCircles.bind(game.profileHandler));
 
     const closeProfile = () => game.EventHandler.emit('closeProfile');
     const logout = () => {
@@ -50,7 +54,8 @@ export default {
         logout, 
         name: game.profileHandler.profile.name,
         xp: game.profileHandler.profile.xp,
-        coins: game.profileHandler.profile.coins
+        coins: game.profileHandler.profile.coins,
+        avatarLink: game.profileHandler.profile.avatarLink
     }
   }
 }
@@ -74,6 +79,56 @@ export default {
     border-radius: 10px;
 }
 
+
+
+
+
+.profileAvatar {
+    width: 128px;
+    height: 128px;
+
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    
+    border-radius: 50%;
+    
+    z-index: 1;
+}
+.avatarImage {
+    width: 90px;
+    height: 90px;
+
+    position: absolute;
+    top: 53%;
+    left: 53%;
+    transform: translate(-50%, -50%);
+
+    padding: 0;
+    border-radius: 50%;
+    z-index: -1;
+}
+.xpCircleHolder {
+    overflow: visible;
+    opacity: 0.8;
+}
+.xpCircleBar {
+    fill: none;
+    stroke: #1b1e27;
+    stroke-width: 15;
+    
+}
+.xpCircleProgress {
+    fill: none;
+    stroke: #4480d4;
+    stroke-width: 15;
+    stroke-dashoffset: 0;
+    transform: rotate(-90deg);
+    transform-origin: center;
+    stroke-linecap: round;
+}
 
 
 .profileInfo {

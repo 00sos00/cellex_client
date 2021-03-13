@@ -62,7 +62,7 @@ export default class Game {
     }
 
     joinGame() {
-        if (!this.socket.isConnectionOpen()) return;
+        if (!this.socket.isConnected()) return;
         let name = localStorage.getItem('name') || '';
         let tag = localStorage.getItem('tag') || '';
         let skinCode = localStorage.getItem('skinCode') || '';
@@ -72,7 +72,7 @@ export default class Game {
     }
 
     respawn() {
-        if (!this.socket.isConnectionOpen()) return;
+        if (!this.socket.isConnected()) return;
         let name = localStorage.getItem('name') || '';
         let tag = localStorage.getItem('tag') || '';
         let skinCode = localStorage.getItem('skinCode') || '';

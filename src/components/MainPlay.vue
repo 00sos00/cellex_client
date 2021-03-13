@@ -16,9 +16,19 @@
     </div>
 
     <!-- The xp circle -->
-    <svg width="172.5" height="172.5" id="xpCircleHolder">
-      <circle r="71.25" cx="86.25" cy="86.25" id="xpCircleBar"></circle>
-      <circle r="71.25" cx="86.25" cy="86.25" id="xpCircleProgress"></circle>
+    <svg width="172.5" height="172.5" class="xpCircleHolder">
+      <circle r="71.25" cx="86.25" cy="86.25" class="xpCircleBar"></circle>
+      <circle r="71.25" cx="86.25" cy="86.25" class="xpCircleProgress">
+        <animate attributeType="CSS" attributeName="stroke-dashoffset" 
+           from="450" to="200" dur="1s" calcMode="spline" repeatCount="1" keyTimes="0;0.22;0.33;0.55;0.66;0.88;1" keySplines="
+            0.1 0.8 0.2 1;
+            0.1 0.8 0.2 1;
+            0.1 0.8 0.2 1;
+            0.1 0.8 0.2 1;
+            0.1 0.8 0.2 1;
+            0.1 0.8 0.2 1" id="progressAnimation"
+        />
+      </circle>
     </svg>
 
     <!-- For the skin inside the xp circle -->
@@ -53,6 +63,7 @@ export default {
     onMounted(() => {
       document.getElementById('nick').value = localStorage.getItem('name');
       document.getElementById('tag').value = localStorage.getItem('tag');
+      game.profileHandler.updateProgressCircles();
     });
 
     const joinGame = game.joinGame.bind(game)
@@ -130,7 +141,7 @@ export default {
 
 
 .coinsBox {
-  width: 120px;
+  width: 150px;
   height: 40px;
 
   position: fixed;
@@ -207,34 +218,24 @@ export default {
 
 
 
-#xpCircleHolder {
+.xpCircleHolder {
     position: absolute;
     left: 50%;
     transform: translate(-50%);
 }
-#xpCircleBar {
+.xpCircleBar {
     fill: none;
     stroke: #1b1e27;
     stroke-width: 15;
 }
-#xpCircleProgress {
+.xpCircleProgress {
     fill: none;
     stroke: #4480d4;
     stroke-width: 15;
-    stroke-dasharray: calc(71.25 * 2 * 3.141592653589793);
-    stroke-dashoffset: 200;
+    stroke-dashoffset: 0;
     transform: rotate(-90deg);
     transform-origin: center;
     stroke-linecap: round;
-    animation: circle 1s;
-}
-@keyframes circle {
-  0% {
-    stroke-dashoffset: 450;
-  }
-  100% {
-    stroke-dashoffset: 200;
-  }
 }
 
 
@@ -242,8 +243,8 @@ export default {
 
 
 #skinHolder {
-  width: 128px;
-  height: 128px;
+  width: 127.5px;
+  height: 127.5px;
   border: 3px #4480d4 solid;
   border-radius: 50%;
 

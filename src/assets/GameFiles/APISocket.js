@@ -81,27 +81,25 @@ export default class APISocket {
     /* <=== Sending Packets ===> */
 
 
-    sendPingPacket() {
-        if (!this.isConnected()) return;
-        const packet = new Writer(true);
+    sendPacket(ID, Data = {}) {
+        if (this.isConnected()) {
+            const packet = new Writer(true);
+                  packet.setUint8(ID);
+            for (const index in Data)
+                packet[Data[index]["func"]](Data[index]["value"]);
+            this.wsConnection.send(packet.build ? packet.build() : packet);
+        }
+    }
 
-        packet.setUint8(5);
-        if (packet.build)
-            this.wsConnection.send(packet.build());
-        else 
-            this.wsConnection.send(packet);
+    sendPingPacket() {
+        this.sendPacket(5);
     }
 
     sendTokenPacket() {
-        if (!this.isConnected()) return;
-        const packet = new Writer(true);
         const token = localStorage.accessToken;
 
-        packet.setUint8(1);
-        packet.setStringUTF8(token);
-        if (packet.build)
-            this.wsConnection.send(packet.build());
-        else 
-            this.wsConnection.send(packet);
+        this.sendPacket(1, {
+            1: { func: "setStringUTF8", value: token }
+        });
     }
 }

@@ -18,7 +18,7 @@
     <MainSettings v-if="visibleElements.Settings" :game="game" key="1"/>
     <Servers v-show="visibleElements.Servers" :game="game" key="1"/>
     <SkinChanger v-show="visibleElements.SkinChanger" :game="game" key="1"/>
-    <Profile v-show="visibleElements.Profile" :game="game" key="1"/>
+    <Profile v-if="visibleElements.Profile" :game="game" key="1"/>
   </transition-group>
 
 
@@ -81,12 +81,16 @@ export default {
     on('loggedIn', () => {
       loggedIn.value = true;
       loading.value = false;
+      if (window.loginBtn)
+        window.loginBtn.disabled = true;
     });
     on('loggedOut', () => {
       loggedIn.value = false;
       loading.value = false;
       localStorage.removeItem('accessToken');
       game.profileHandler.resetProfile();
+      if (window.loginBtn)
+        window.loginBtn.disabled = false;
     });
 
     on('showMain', () => {

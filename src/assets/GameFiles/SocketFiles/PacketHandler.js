@@ -1,5 +1,4 @@
 import Reader from './Reader';
-import Writer from './Writer';
 import Color from '../Color';
 import packets from './packets.json';
 import Cell from '../Cell';
@@ -11,111 +10,71 @@ export default class PacketHandler {
 
     // <=== PACKETS TO SEND ===>
     sendPingRequest() {
-        if (!this.socket.isConnectionOpen()) return;
-        let packet = new Writer(true);
-            
-        packet.setUint8(3);
-        packet.setStringUTF8(Date.now().toString());
-        if (packet.build)
-            this.socket.wsConnection.send(packet.build());
-        else 
-            this.socket.wsConnection.send(packet);
-        packet = null;
+        this.socket.sendPacket(1, {
+            1: { func: "setStringUTF8", value: Date.now().toString() }
+        });
     }
 
     sendMouse(x, y) {
-        if (!this.socket.isConnectionOpen()) return;
-        let packet = new Writer(true);
-        packet.setUint8(4);
-        packet.setUint32(x);
-        packet.setUint32(y);
-        if (packet.build)
-            this.socket.wsConnection.send(packet.build());
-        else 
-            this.socket.wsConnection.send(packet);
-        packet = null;
+        this.socket.sendPacket(2, {
+            1: { func: "setUint32", value: x },
+            2: { func: "setUint32", value: y }
+        });
     }
 
     sendChatMessage(message) {
-        if (!this.socket.isConnectionOpen()) return;
-        let packet = new Writer(true);
-                
-        packet.setUint8(5);
-        packet.setStringUTF8(message);
-        if (packet.build)
-            this.socket.wsConnection.send(packet.build());
-        else 
-            this.socket.wsConnection.send(packet);
-        packet = null;
+        this.socket.sendPacket(3, {
+            1: { func: "setStringUTF8", value: message }
+        });
     }
 
     joinGame(data) {
-        if (!this.socket.isConnectionOpen()) return;
-        let packet = new Writer(true);
-                
-        packet.setUint8(6);
-        packet.setStringUTF8(JSON.stringify(data));
-        if (packet.build)
-            this.socket.wsConnection.send(packet.build());
-        else 
-            this.socket.wsConnection.send(packet);
-        packet = null;
+        this.socket.sendPacket(4, {
+            1: { func: "setStringUTF8", value: JSON.stringify(data) }
+        });
     }
 
     startFeeding() {
-        this.socket.sendPacket(7);
+        this.socket.sendPacket(5);
     }
 
     stopFeeding() {
-        this.socket.sendPacket(8);
+        this.socket.sendPacket(6);
     }
 
     split() {
-        this.socket.sendPacket(9);
+        this.socket.sendPacket(7);
     }
 
     doublesplit() {
-        this.socket.sendPacket(10);
+        this.socket.sendPacket(8);
     }
 
     triplesplit() {
-        this.socket.sendPacket(11);
+        this.socket.sendPacket(9);
     }
 
     split16() {
-        this.socket.sendPacket(12);
+        this.socket.sendPacket(10);
     }
 
     respawn(data) {
-        if (!this.socket.isConnectionOpen()) return;
-        let packet = new Writer(true);
-                
-        packet.setUint8(13);
-        packet.setStringUTF8(JSON.stringify(data));
-        if (packet.build)
-            this.socket.wsConnection.send(packet.build());
-        else 
-            this.socket.wsConnection.send(packet);
-        packet = null;
+        this.socket.sendPacket(11, {
+            1: { func: "setStringUTF8", value: JSON.stringify(data) }
+        });
     }
 
     startSpectating() {
-        if (!this.socket.isConnectionOpen()) return;
-        this.socket.sendPacket(14);
+        this.socket.sendPacket(12);
         this.socket.game.hideMain();
     }
 
     stopSpectating() {
-        this.socket.sendPacket(15);
+        this.socket.sendPacket(13);
     }
 
 
     // <=== PACKETS TO RECIEVE ===>
-    onCacheName(reader) {
-        const playerId = reader.getUint16();
-        this.socket.game.playerManager.getPlayerById(playerId).cacheNameText();
-    }
-
     onCachePlayer(reader) {
         const playerId = reader.getUint16();
         const playerName = reader.getStringUTF8();

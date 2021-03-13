@@ -28,7 +28,7 @@
                 <div class="settingsTab" key="1" v-show="visibleTabs.Ranges">
                     <div v-for="range in ranges" :key="range" class="settingsRange">
                         <p class="settingsRangeName">{{ range.name }}</p>
-                        <input @input="onRangeChange" class="settingsRangeInput" type="range" :data-rangeName="range.name" :value="range.defaultValue" :min="range.minValue" :max="range.maxValue" :step="range.step">
+                        <input @input="onRangeChange" class="settingsRangeInput" type="range" :data-rangeName="range.name" :min="range.minValue" :max="range.maxValue" :step="range.step">
                         <div class="rangeInputValue"></div>
                     </div>
                     <button class="settingsResetBtn" @click="resetRanges">Reset</button>
