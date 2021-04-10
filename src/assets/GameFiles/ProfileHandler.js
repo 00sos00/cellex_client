@@ -4,6 +4,7 @@ export default class ProfileHandler {
     constructor(game) {
         this.game = game;
         this.profile = {
+            id: ref(0),
             name: ref(''),
             xp: ref(0),
             totalXp: ref(0),
@@ -63,6 +64,7 @@ export default class ProfileHandler {
         }
         const progress = currentXp ? Math.floor(currentXp / requiredXp * 100) : 1;
 
+        this.profile.id.value = data.id;
         this.profile.name.value = data.discUsername;
         this.profile.avatarLink.value = `https://cdn.discordapp.com/avatars/${data.discId}/${data.discAvatar}`;
         this.profile.xp.value = Math.floor(currentXp);
@@ -75,6 +77,7 @@ export default class ProfileHandler {
 
     resetProfile() {
         this.profile = {
+            id: ref(0),
             name: ref(''),
             xp: ref(0),
             totalXp: ref(0),

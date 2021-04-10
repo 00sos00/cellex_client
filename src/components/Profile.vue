@@ -2,6 +2,7 @@
   <div id="profile">
     <div class="profileAvatar">
         <img :src="avatarLink" alt="Avatar" class="avatarImage">
+        <div class="avatarOverlay">{{ level }}</div>
         <svg width="135" height="135" class="xpCircleHolder">
             <circle r="52.5" cx="67.5" cy="67.5" class="xpCircleBar"></circle>
             <circle r="52.5" cx="67.5" cy="67.5" class="xpCircleProgress"></circle>
@@ -16,14 +17,14 @@
         </div>
         <div class="profileRow">
             <span class="profileKey">
-                Exp:
-                <span class="profileValue">{{ xp }}</span>
+                Progress:
+                <span class="profileValue">{{ progress }}%</span>
             </span>
         </div>
         <div class="profileRow">
             <span class="profileKey">
-                Coins:
-                <span class="profileValue">{{ coins }}</span>
+                Account ID:
+                <span class="profileValue">{{ accID }}</span>
             </span>
         </div>
     </div>
@@ -54,7 +55,10 @@ export default {
         logout, 
         name: game.profileHandler.profile.name,
         xp: game.profileHandler.profile.xp,
-        coins: game.profileHandler.profile.coins,
+        reqXp: game.profileHandler.profile.requiredXp,
+        level: game.profileHandler.profile.level,
+        progress: game.profileHandler.profile.progress,
+        accID: game.profileHandler.profile.id,
         avatarLink: game.profileHandler.profile.avatarLink
     }
   }
@@ -65,7 +69,7 @@ export default {
 <style scoped>
 #profile {
     width: 350px;
-    height: 350px;
+    height: 210px;
 
     position: absolute;
     top: 0;
@@ -88,14 +92,37 @@ export default {
     height: 128px;
 
     position: absolute;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 15px;
+    left: 5px;
 
     
     border-radius: 50%;
     
     z-index: 1;
+}
+.avatarOverlay {
+    width: 90px;
+    height: 90px;
+
+    position: absolute;
+    top: 53%;
+    left: 53%;
+    transform: translate(-50%, -50%);
+
+    color: white;
+    font-family: 'Quicksand';
+    font-size: 24px;
+    text-align: center;
+    line-height: 90px;
+    /* background-color: black; */
+
+    opacity: 0;
+    border-radius: 50%;
+    transition: opacity 0.3s;
+    z-index: 1;
+}
+.avatarOverlay:hover {
+    opacity: 0;
 }
 .avatarImage {
     width: 90px;
@@ -133,7 +160,7 @@ export default {
 
 .profileInfo {
     width: 340px;
-    height: 290px;
+    height: 150px;
 
     position: absolute;
     top: 5px;
@@ -151,12 +178,13 @@ export default {
     font-family: 'Quicksand';
     font-size: 14px;
 
+    margin-top: 11px;
     line-height: 35px;
     margin-bottom: 10px;
 }
 .profileKey {
     color: white;
-    margin-left: 5px;
+    margin-left: 140px;
 }
 .profileValue {
     color: rgb(177, 176, 176);
