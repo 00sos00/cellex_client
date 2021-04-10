@@ -57,8 +57,8 @@ export default {
     const self = getCurrentInstance();
     const EventHandler = self.appContext.config.globalProperties.EventHandler;
     const on = EventHandler.on;
-    const loggedIn = ref(false);
-    const loading = ref(true);
+    const loggedIn = ref(true);
+    const loading = ref(false);
     const game = new Game(EventHandler);
     const visibleElements = ref({
       Main: true,
